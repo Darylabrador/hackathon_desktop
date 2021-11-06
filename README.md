@@ -1,16 +1,31 @@
-# hackathon_desktop_app
+# Hackathon : application bureau
 
-A new Flutter project.
+La conception et le développement de ce projet s'est effectué dans le cadre de la formation de Simplon. Il s'agit ici de la partie application bureau nécessaire à l'obtention du titre.
 
-## Getting Started
+## Technologie
 
-This project is a starting point for a Flutter application.
+On utilise ici la technologie suivante :
 
-A few resources to get you started if this is your first Flutter project:
+- Flutter
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+## Initialisation du projet
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Après avoir fait un git clone de ce projet, vous devez utiliser les commandes citées ci-dessous.
+
+<br>
+
+Cette ligne de commande permettra de s'assurer que les dépendances nécessaires au bon fonctionnement de l'application sont bien installées
+
+- flutter pub get
+
+Cette ligne de commande permet de lancer l'application mobile en mode debug :
+
+- flutter run
+
+## Pour générer l'application desktop :
+
+Il faut utiliser une des commandes listées ci-dessous suivant votre environnement :
+
+- flutter build windows
+- flutter build macos
+- flutter build linux
