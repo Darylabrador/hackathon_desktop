@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
+
 import '../widgets/custom_background.dart';
-import '../widgets/auth/auth_form.dart';
+import '../widgets/resetPassword/display_reset_forms.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
-  static const routeName = "/";
+class ForgottenPasswordScreen extends StatelessWidget {
+  const ForgottenPasswordScreen({Key? key}) : super(key: key);
+  static const routeName = "/forgotten";
 
-  @override
-  _LoginScreenState createState() => _LoginScreenState();
-}
-
-class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,12 +37,12 @@ class _LoginScreenState extends State<LoginScreen> {
                       children: [
                         const SizedBox(height: 5),
                         Text(
-                          "Connexion",
+                          "Mot de passe oublié",
                           style: Theme.of(context).textTheme.headline3,
                         ),
                         const SizedBox(height: 5),
                         const Divider(),
-                        const AuthForm(),
+                        const DisplayResetForms()
                       ],
                     ),
                   ),
