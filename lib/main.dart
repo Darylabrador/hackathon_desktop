@@ -9,6 +9,7 @@ import './screens/dashboard_screen.dart';
 import './screens/forgotten_password_screen.dart';
 
 import './providers/auth.dart';
+import './providers/password_reset.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,6 +29,10 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (ctx) => Auth()),
+        ChangeNotifierProxyProvider<Auth, PasswordReset>(
+          create: (ctx) => PasswordReset(),
+          update: (ct, auth, prevState) => PasswordReset(authToken: auth.token),
+        )
       ],
       child: Consumer<Auth>(
         builder: (ctx, authData, child) => MaterialApp(

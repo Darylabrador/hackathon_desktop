@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../providers/password_reset.dart';
+import '../../utils/snackbar.dart';
 import '../../screens/login_screen.dart';
 
 class AskResetForm extends StatefulWidget {
@@ -13,6 +17,24 @@ class AskResetForm extends StatefulWidget {
 class _AskResetFormState extends State<AskResetForm> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
+
+  Future<void> _submit(BuildContext context) async {
+    try {
+      if (!_formKey.currentState!.validate()) {
+        return;
+      }
+      _formKey.currentState!.save();
+      final data = await Provider.of<PasswordReset>(context, listen: false)
+          .loggedOutResetingAsk(_emailController.text);
+      if (data["success"]) {
+        widget.handleReseting(data["resetToken"]);
+      } else {
+        Snackbar.showScaffold(data["message"], false, context);
+      }
+    } catch (e) {
+      Snackbar.showScaffold(e.toString(), false, context);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +68,8 @@ class _AskResetFormState extends State<AskResetForm> {
                   width: 200,
                   child: ElevatedButton(
                     onPressed: () {
-                      Navigator.of(context).pushReplacementNamed(LoginScreen.routeName);
+                      Navigator.of(context)
+                          .pushReplacementNamed(LoginScreen.routeName);
                     },
                     child: const Text('Retour'),
                   ),
@@ -54,7 +77,7 @@ class _AskResetFormState extends State<AskResetForm> {
                 SizedBox(
                   width: 200,
                   child: ElevatedButton(
-                    onPressed: () => widget.handleReseting(),
+                    onPressed: () => _submit(context),
                     child: const Text('Valider'),
                   ),
                 ),
