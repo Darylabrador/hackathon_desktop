@@ -25,35 +25,37 @@ class AppDrawer extends StatelessWidget {
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
-            DrawerHeader(
-              decoration: const BoxDecoration(
-                color: Colors.blue,
-              ),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    children: const [
-                      Text('text'),
-                      Text('text'),
-                      Text('text'),
-                    ],
-                  ),
-                  IconButton(
-                    color: Colors.white,
-                    onPressed: () {
-                      Navigator.of(customContext ?? context).pushReplacement(
-                          MaterialPageRoute(
-                              builder: (ctx) => const LoginScreen()));
-                      Navigator.of(customContext ?? context)
-                          .pushReplacementNamed(LoginScreen.routeName);
-                      Provider.of<Auth>(customContext ?? context, listen: false)
-                          .logout();
-                    },
-                    icon: const Icon(MdiIcons.exitToApp),
-                  )
-                ],
+            SizedBox(
+              height: 70,
+              child: DrawerHeader(
+                decoration: BoxDecoration(
+                  color: Palette.bluePostale[100],
+                ),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const CircleAvatar(
+                      backgroundImage: AssetImage("assets/images/default.png"),
+                    ),
+                    IconButton(
+                      padding: EdgeInsets.zero,
+                      hoverColor: Colors.transparent,
+                      color: Colors.white,
+                      onPressed: () {
+                        Navigator.of(customContext ?? context).pushReplacement(
+                            MaterialPageRoute(
+                                builder: (ctx) => const LoginScreen()));
+                        Navigator.of(customContext ?? context)
+                            .pushReplacementNamed(LoginScreen.routeName);
+                        Provider.of<Auth>(customContext ?? context,
+                                listen: false)
+                            .logout();
+                      },
+                      icon: const Icon(MdiIcons.exitToApp),
+                    )
+                  ],
+                ),
               ),
             ),
             ListTile(
