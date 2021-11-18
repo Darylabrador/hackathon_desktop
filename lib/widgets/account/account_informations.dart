@@ -10,6 +10,7 @@ class AccountInformations extends StatelessWidget {
       child: SingleChildScrollView(
         child: Column(
           children: [
+            const SizedBox(height: 20),
             Container(
               width: 130,
               height: 130,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../components/gender_select_input.dart';
-import '../../utils/palette.dart';
+import '../components/custom_text_form_field.dart';
 
 class AccountInformationForm extends StatefulWidget {
   const AccountInformationForm({Key? key}) : super(key: key);
@@ -16,6 +16,13 @@ class _AccountInformationFormState extends State<AccountInformationForm> {
   final _emailController = TextEditingController();
   final _yearOldController = TextEditingController();
 
+  void _submit() {
+    if (!_formKey.currentState!.validate()) {
+      return;
+    }
+    _formKey.currentState!.save();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -24,18 +31,8 @@ class _AccountInformationFormState extends State<AccountInformationForm> {
         width: 570,
         child: Column(
           children: [
-            TextFormField(
-              decoration: const InputDecoration(
-                labelText: "Votre nom de famille",
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.blue, width: 1.0),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderSide:
-                      BorderSide(color: Palette.bluePostale, width: 1.0),
-                ),
-              ),
-              textInputAction: TextInputAction.next,
+            CustomTextFormField(
+              labelText: "Votre nom de famille",
               controller: _surnameController,
               validator: (value) {
                 if (value!.isEmpty) {
@@ -45,18 +42,8 @@ class _AccountInformationFormState extends State<AccountInformationForm> {
               },
             ),
             const SizedBox(height: 10),
-            TextFormField(
-              decoration: const InputDecoration(
-                labelText: "Votre prénom",
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.blue, width: 1.0),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderSide:
-                      BorderSide(color: Palette.bluePostale, width: 1.0),
-                ),
-              ),
-              textInputAction: TextInputAction.next,
+            CustomTextFormField(
+              labelText: "Votre prénom",
               controller: _firstnameController,
               validator: (value) {
                 if (value!.isEmpty) {
@@ -66,18 +53,8 @@ class _AccountInformationFormState extends State<AccountInformationForm> {
               },
             ),
             const SizedBox(height: 10),
-            TextFormField(
-              decoration: const InputDecoration(
-                labelText: "Votre adresse e-mail",
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.blue, width: 1.0),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderSide:
-                      BorderSide(color: Palette.bluePostale, width: 1.0),
-                ),
-              ),
-              textInputAction: TextInputAction.next,
+            CustomTextFormField(
+              labelText: "Votre adresse e-mail",
               controller: _emailController,
               validator: (value) {
                 if (value!.isEmpty) {
@@ -90,18 +67,8 @@ class _AccountInformationFormState extends State<AccountInformationForm> {
               },
             ),
             const SizedBox(height: 10),
-            TextFormField(
-              decoration: const InputDecoration(
-                labelText: "Votre age",
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.blue, width: 1.0),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderSide:
-                      BorderSide(color: Palette.bluePostale, width: 1.0),
-                ),
-              ),
-              textInputAction: TextInputAction.next,
+            CustomTextFormField(
+              labelText: "Votre age",
               controller: _yearOldController,
               validator: (value) {
                 if (value!.isEmpty) {
@@ -113,7 +80,6 @@ class _AccountInformationFormState extends State<AccountInformationForm> {
                 return null;
               },
             ),
-            const SizedBox(height: 10),
             const SizedBox(height: 10),
             const GenderSelectInput(),
             const SizedBox(height: 20),
@@ -131,16 +97,19 @@ class _AccountInformationFormState extends State<AccountInformationForm> {
                     child: const Text('Annuler'),
                   ),
                 ),
-                  const SizedBox(width: 15,),
+                const SizedBox(
+                  width: 15,
+                ),
                 SizedBox(
                   width: 200,
                   child: ElevatedButton(
-                    onPressed: () => {},
+                    onPressed: _submit,
                     child: const Text('Valider'),
                   ),
                 ),
               ],
             ),
+            const SizedBox(height: 20),
           ],
         ),
       ),

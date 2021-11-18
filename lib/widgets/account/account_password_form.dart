@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../utils/palette.dart';
+import '../components/custom_text_form_field.dart';
 
 class AccountPasswordForm extends StatefulWidget {
   const AccountPasswordForm({Key? key}) : super(key: key);
@@ -14,6 +14,13 @@ class _AccountPasswordFormState extends State<AccountPasswordForm> {
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
 
+  void _submit() {
+    if (!_formKey.currentState!.validate()) {
+      return;
+    }
+    _formKey.currentState!.save();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -22,20 +29,9 @@ class _AccountPasswordFormState extends State<AccountPasswordForm> {
         width: 570,
         child: Column(
           children: [
-            TextFormField(
-              decoration: const InputDecoration(
-                labelText: "Ancien mot de passe",
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.blue, width: 1.0),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderSide:
-                      BorderSide(color: Palette.bluePostale, width: 1.0),
-                ),
-              ),
-              textInputAction: TextInputAction.next,
+            CustomTextFormField(
+              labelText: "Ancien mot de passe",
               controller: _oldPasswordController,
-              obscureText: true,
               validator: (value) {
                 if (value!.isEmpty) {
                   return 'Veuillez saisir votre ancien mot de passe';
@@ -44,20 +40,9 @@ class _AccountPasswordFormState extends State<AccountPasswordForm> {
               },
             ),
             const SizedBox(height: 10),
-            TextFormField(
-              decoration: const InputDecoration(
-                labelText: "Nouveau mot de passe",
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.blue, width: 1.0),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderSide:
-                      BorderSide(color: Palette.bluePostale, width: 1.0),
-                ),
-              ),
-              textInputAction: TextInputAction.next,
+            CustomTextFormField(
+              labelText: "Nouveau mot de passe",
               controller: _passwordController,
-              obscureText: true,
               validator: (value) {
                 if (value!.isEmpty) {
                   return 'Veuillez saisir votre nouveau mot de passe';
@@ -66,20 +51,9 @@ class _AccountPasswordFormState extends State<AccountPasswordForm> {
               },
             ),
             const SizedBox(height: 10),
-            TextFormField(
-              decoration: const InputDecoration(
-                labelText: "Confirmation mot de passe",
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.blue, width: 1.0),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderSide:
-                      BorderSide(color: Palette.bluePostale, width: 1.0),
-                ),
-              ),
-              textInputAction: TextInputAction.next,
+            CustomTextFormField(
+              labelText: "Confirmation mot de passe",
               controller: _confirmPasswordController,
-              obscureText: true,
               validator: (value) {
                 if (value!.isEmpty) {
                   return 'Veuillez confirmer votre mot de passe';
@@ -102,11 +76,13 @@ class _AccountPasswordFormState extends State<AccountPasswordForm> {
                     child: const Text('Annuler'),
                   ),
                 ),
-                const SizedBox(width: 15,),
+                const SizedBox(
+                  width: 15,
+                ),
                 SizedBox(
                   width: 200,
                   child: ElevatedButton(
-                    onPressed: () => {},
+                    onPressed: _submit,
                     child: const Text('Valider'),
                   ),
                 ),

@@ -41,7 +41,7 @@ class AppDrawer extends StatelessWidget {
                         hoverColor: Colors.transparent,
                         color: Colors.white,
                         onPressed: () {
-                          Navigator.of(customContext ?? context).pop();
+                          Navigator.of(context).pop();
                         },
                         icon: const Icon(MdiIcons.arrowLeft),
                       ),
