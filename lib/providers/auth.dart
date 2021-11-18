@@ -11,14 +11,19 @@ import '../utils/constant_variables.dart';
 
 class Auth with ChangeNotifier {
   String? _token;
+  String? _identity;
   DateTime? _expiryDate;
   Timer? _authTimer;
 
+  String? get identity {
+    if (_identity != null) return _identity;
+    return "";
+    
+  }
 
   bool get isAuth {
     return token != null;
   }
-
 
   String? get token {
     if (_token != null &&
@@ -29,16 +34,16 @@ class Auth with ChangeNotifier {
     return null;
   }
 
-
-  Future<void> _setSharedPreference(String? token, DateTime? expiryDate) async {
+  Future<void> _setSharedPreference(
+      String? token, DateTime? expiryDate, String? identity) async {
     final prefs = await SharedPreferences.getInstance();
     final userData = jsonEncode({
+      'identity': identity,
       'token': token,
       'expiryDate': expiryDate!.toIso8601String(),
     });
     await prefs.setString('userData', userData);
   }
-
 
   Future<Map<String, dynamic>> login(String email, String password) async {
     final url = Uri.parse("${ConstantVariables.startingURL}/login");
@@ -55,9 +60,10 @@ class Auth with ChangeNotifier {
       if (responseData["role"] == "laposte" ||
           responseData["role"] == "admin") {
         if (responseData["success"]) {
+          _identity = responseData["identity"];
           _token = responseData["token"];
           _expiryDate = JwtDecoder.getExpirationDate(responseData["token"]);
-          await _setSharedPreference(_token, _expiryDate);
+          await _setSharedPreference(_token, _expiryDate, _identity);
           notifyListeners();
           _autoLogout();
         }
@@ -72,7 +78,6 @@ class Auth with ChangeNotifier {
       throw HttpException("Veuillez réessayer ultérieurement");
     }
   }
-
 
   Future<bool> tryAutoLogin() async {
     final prefs = await SharedPreferences.getInstance();
@@ -89,11 +94,11 @@ class Auth with ChangeNotifier {
 
     _token = extractedData["token"] as String;
     _expiryDate = expiryDate;
+    _identity = extractedData["identity"] as String;
     notifyListeners();
     _autoLogout();
     return true;
   }
-
 
   Future<void> logout() async {
     if (_authTimer != null) {
@@ -109,7 +114,6 @@ class Auth with ChangeNotifier {
     final prefs = await SharedPreferences.getInstance();
     prefs.remove('userData');
   }
-
 
   void _autoLogout() {
     if (_authTimer != null) _authTimer!.cancel();

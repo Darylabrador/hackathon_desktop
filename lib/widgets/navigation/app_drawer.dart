@@ -26,48 +26,71 @@ class AppDrawer extends StatelessWidget {
           padding: EdgeInsets.zero,
           children: [
             SizedBox(
-              height: 70,
+              height: 95,
               child: DrawerHeader(
                 decoration: BoxDecoration(
                   color: Palette.bluePostale[100],
                 ),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Row(
-                      children: [
-                        IconButton(
-                          padding: EdgeInsets.zero,
-                          hoverColor: Colors.transparent,
-                          color: Colors.white,
-                          onPressed: () {
-                            Navigator.of(customContext ?? context).pop();
-                          },
-                          icon: const Icon(MdiIcons.arrowLeft),
-                        ),
-                        const SizedBox(width: 20,),
-                        const CircleAvatar(
-                          backgroundImage:
-                              AssetImage("assets/images/default.png"),
-                        ),
-                      ],
+                    Expanded(
+                      flex: 1,
+                      child: IconButton(
+                        padding: EdgeInsets.zero,
+                        hoverColor: Colors.transparent,
+                        color: Colors.white,
+                        onPressed: () {
+                          Navigator.of(customContext ?? context).pop();
+                        },
+                        icon: const Icon(MdiIcons.arrowLeft),
+                      ),
                     ),
-                    IconButton(
-                      padding: EdgeInsets.zero,
-                      hoverColor: Colors.transparent,
-                      color: Colors.white,
-                      onPressed: () {
-                        Navigator.of(customContext ?? context).pushReplacement(
-                            MaterialPageRoute(
-                                builder: (ctx) => const LoginScreen()));
-                        Navigator.of(customContext ?? context)
-                            .pushReplacementNamed(LoginScreen.routeName);
-                        Provider.of<Auth>(customContext ?? context,
-                                listen: false)
-                            .logout();
-                      },
-                      icon: const Icon(MdiIcons.exitToApp),
+                    Expanded(
+                      flex: 8,
+                      child: Row(
+                        children: [
+                          const SizedBox(
+                            width: 20,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              const CircleAvatar(
+                                backgroundImage:
+                                    AssetImage("assets/images/default.png"),
+                              ),
+                              FittedBox(
+                                child: Text(
+                                  Provider.of<Auth>(customContext ?? context)
+                                      .identity as String,
+                                  style: const TextStyle(color: Colors.white),
+                                ),
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: IconButton(
+                        padding: EdgeInsets.zero,
+                        hoverColor: Colors.transparent,
+                        color: Colors.white,
+                        onPressed: () {
+                          Navigator.of(customContext ?? context).pushReplacement(
+                              MaterialPageRoute(
+                                  builder: (ctx) => const LoginScreen()));
+                          Navigator.of(customContext ?? context)
+                              .pushReplacementNamed(LoginScreen.routeName);
+                          Provider.of<Auth>(customContext ?? context,
+                                  listen: false)
+                              .logout();
+                        },
+                        icon: const Icon(MdiIcons.exitToApp),
+                      ),
                     )
                   ],
                 ),
