@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../models/gender.dart';
 import '../components/gender_select_input.dart';
 import '../components/custom_text_form_field.dart';
 
@@ -15,12 +16,31 @@ class _AccountInformationFormState extends State<AccountInformationForm> {
   final _firstnameController = TextEditingController();
   final _emailController = TextEditingController();
   final _yearOldController = TextEditingController();
+  Gender? _selectedGender;
+  var _isValid = true;
 
   void _submit() {
+    if (_selectedGender is Gender) {
+      setState(() {
+        _isValid = true;
+      });
+    } else {
+      setState(() {
+        _isValid = false;
+      });
+    }
+
     if (!_formKey.currentState!.validate()) {
       return;
     }
+
     _formKey.currentState!.save();
+  }
+
+  void _handleSelect(Gender selectedValued) {
+    setState(() {
+      _selectedGender = selectedValued;
+    });
   }
 
   @override
@@ -81,7 +101,10 @@ class _AccountInformationFormState extends State<AccountInformationForm> {
               },
             ),
             const SizedBox(height: 10),
-            const GenderSelectInput(),
+            GenderSelectInput(
+              isValid: _isValid,
+              handleSelect: _handleSelect,
+            ),
             const SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,

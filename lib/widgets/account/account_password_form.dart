@@ -32,6 +32,7 @@ class _AccountPasswordFormState extends State<AccountPasswordForm> {
             CustomTextFormField(
               labelText: "Ancien mot de passe",
               controller: _oldPasswordController,
+              obscureText: true,
               validator: (value) {
                 if (value!.isEmpty) {
                   return 'Veuillez saisir votre ancien mot de passe';
@@ -43,6 +44,7 @@ class _AccountPasswordFormState extends State<AccountPasswordForm> {
             CustomTextFormField(
               labelText: "Nouveau mot de passe",
               controller: _passwordController,
+              obscureText: true,
               validator: (value) {
                 if (value!.isEmpty) {
                   return 'Veuillez saisir votre nouveau mot de passe';
@@ -54,6 +56,7 @@ class _AccountPasswordFormState extends State<AccountPasswordForm> {
             CustomTextFormField(
               labelText: "Confirmation mot de passe",
               controller: _confirmPasswordController,
+              obscureText: true,
               validator: (value) {
                 if (value!.isEmpty) {
                   return 'Veuillez confirmer votre mot de passe';

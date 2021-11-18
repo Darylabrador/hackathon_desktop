@@ -3,7 +3,11 @@ import '../../models/gender.dart';
 import '../../utils/palette.dart';
 
 class GenderSelectInput extends StatefulWidget {
-  const GenderSelectInput({Key? key}) : super(key: key);
+  final bool isValid;
+  final Function handleSelect;
+  const GenderSelectInput(
+      {required this.isValid, required this.handleSelect, Key? key})
+      : super(key: key);
 
   @override
   _GenderSelectInputState createState() => _GenderSelectInputState();
@@ -21,11 +25,11 @@ class _GenderSelectInputState extends State<GenderSelectInput> {
   @override
   Widget build(BuildContext context) {
     return DropdownButtonFormField<Gender>(
-      decoration: const InputDecoration(
+      decoration: InputDecoration(
         labelText: "Votre sexe",
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(
-            color: Palette.bluePostale,
+            color: widget.isValid ? Palette.bluePostale : Colors.red,
             width: 1.0,
           ),
         ),
@@ -36,6 +40,7 @@ class _GenderSelectInputState extends State<GenderSelectInput> {
       iconSize: 24,
       elevation: 16,
       onChanged: (Gender? newValue) {
+        widget.handleSelect(newValue);
         setState(() {
           dropdownValue = newValue!;
         });

@@ -4,12 +4,14 @@ import '../../utils/palette.dart';
 class CustomTextFormField extends StatefulWidget {
   final String labelText;
   final TextEditingController controller;
+  final bool? obscureText;
   final String? Function(String?) validator;
 
   const CustomTextFormField({
     Key? key,
     required this.labelText,
     required this.controller,
+    this.obscureText,
     required this.validator,
   }) : super(key: key);
 
@@ -38,7 +40,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
       ),
       textInputAction: TextInputAction.next,
       controller: widget.controller,
-      obscureText: true,
+      obscureText: widget.obscureText ?? false,
       validator: widget.validator
     );
   }
