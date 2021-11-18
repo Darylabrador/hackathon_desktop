@@ -35,8 +35,23 @@ class AppDrawer extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const CircleAvatar(
-                      backgroundImage: AssetImage("assets/images/default.png"),
+                    Row(
+                      children: [
+                        IconButton(
+                          padding: EdgeInsets.zero,
+                          hoverColor: Colors.transparent,
+                          color: Colors.white,
+                          onPressed: () {
+                            Navigator.of(customContext ?? context).pop();
+                          },
+                          icon: const Icon(MdiIcons.arrowLeft),
+                        ),
+                        const SizedBox(width: 20,),
+                        const CircleAvatar(
+                          backgroundImage:
+                              AssetImage("assets/images/default.png"),
+                        ),
+                      ],
                     ),
                     IconButton(
                       padding: EdgeInsets.zero,
