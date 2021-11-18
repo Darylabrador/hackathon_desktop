@@ -17,7 +17,6 @@ class PasswordReset with ChangeNotifier {
         url,
         body: jsonEncode({'email': email, 'isWeb': false}),
         headers: {
-          'Authorization': "Bearer $authToken",
           "Content-Type": "application/json"
         },
       );
@@ -40,7 +39,6 @@ class PasswordReset with ChangeNotifier {
           'resetToken': resetToken,
         }),
         headers: {
-          'Authorization': "Bearer $authToken",
           "Content-Type": "application/json"
         },
       );

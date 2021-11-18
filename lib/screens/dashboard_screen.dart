@@ -1,25 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../providers/auth.dart';
+import '../widgets/navigation/app_drawer.dart';
+import '../widgets/custom_background.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({Key? key}) : super(key: key);
-  static const routeName = '/';
+  static const routeName = '/dashboard';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Dashboard'),
         actions: [
           IconButton(
-            onPressed: () => Provider.of<Auth>(context, listen: false).logout(),
-            icon: const Icon(Icons.exit_to_app),
+            onPressed: () {},
+            icon: const Icon(Icons.refresh),
+          ),
+          const SizedBox(
+            width: 30,
           )
         ],
       ),
-      body: const Center(
-        child: Text('dashboard'),
+      drawer: const AppDrawer(),
+      body: const CustomBackground(
+        Center(
+          child: Text('dashboard'),
+        ),
       ),
     );
   }

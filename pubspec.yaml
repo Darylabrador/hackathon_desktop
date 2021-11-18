@@ -42,6 +42,8 @@ dependencies:
   http: ^0.13.4
   provider: ^6.0.1
   jwt_decoder: ^2.0.1
+  charts_flutter: ^0.12.0
+  material_design_icons_flutter: ^4.0.5145
 
 dev_dependencies:
   flutter_test:

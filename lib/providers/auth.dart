@@ -15,7 +15,6 @@ class Auth with ChangeNotifier {
   Timer? _authTimer;
 
   bool get isAuth {
-    // ignore: unnecessary_null_comparison
     return token != null;
   }
 
@@ -42,10 +41,11 @@ class Auth with ChangeNotifier {
     try {
       final response = await http.post(
         url,
-        body: {
-          'email': email,
-          'password': password,
-        },
+        body: jsonEncode({
+          'email': email.trim(),
+          'password': password.trim(),
+        }),
+        headers: {"Content-Type": "application/json"},
       );
       final responseData = json.decode(response.body);
       if (responseData["role"] == "laposte" ||
@@ -53,16 +53,16 @@ class Auth with ChangeNotifier {
         if (responseData["success"]) {
           _token = responseData["token"];
           _expiryDate = JwtDecoder.getExpirationDate(responseData["token"]);
+          await _setSharedPreference(_token, _expiryDate);
           notifyListeners();
           _autoLogout();
-          _setSharedPreference(_token, _expiryDate);
         }
         return responseData;
       } else {
-        return {
-          'success': false,
-          'message': "Vous n'êtes pas autorisé à vous connecter"
-        };
+        var message = responseData["token"] != null
+            ? "Vous n'êtes pas autorisé à vous connecter"
+            : responseData["message"];
+        return {'success': false, 'message': message};
       }
     } catch (e) {
       throw HttpException("Veuillez réessayer ultérieurement");
@@ -75,24 +75,33 @@ class Auth with ChangeNotifier {
       return false;
     }
 
-    final extractedData = prefs.getString("userData") as Map<String, dynamic>;
-    final expiryDate = DateTime.parse(extractedData['expiryDate']);
+    final extractedData =
+        jsonDecode(prefs.getString("userData")!) as Map<String, Object>;
+    final expiryDate = DateTime.parse(extractedData['expiryDate'] as String);
     if (expiryDate.isBefore(DateTime.now())) {
       return false;
     }
 
-    _token = extractedData["token"];
-    _expiryDate = extractedData['expiryDate'];
+    _token = extractedData["token"] as String;
+    _expiryDate = expiryDate;
     notifyListeners();
     _autoLogout();
     return true;
   }
 
   Future<void> logout() async {
+    if (_authTimer != null) {
+      _authTimer!.cancel();
+      _authTimer = null;
+    }
+
     final url = Uri.parse("${ConstantVariables.startingURL}/logout");
     await http.get(url, headers: {'Authorization': "Bearer $_token"});
     _token = null;
+    _expiryDate = null;
     notifyListeners();
+    final prefs = await SharedPreferences.getInstance();
+    prefs.remove('userData');
   }
 
   void _autoLogout() {

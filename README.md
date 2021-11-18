@@ -20,12 +20,12 @@ Cette ligne de commande permettra de s'assurer que les dépendances nécessaires
 
 Cette ligne de commande permet de lancer l'application mobile en mode debug :
 
-- flutter run
+- flutter run -d windows --no-sound-null-safety
 
 ## Pour générer l'application desktop :
 
 Il faut utiliser une des commandes listées ci-dessous suivant votre environnement :
 
-- flutter build windows
-- flutter build macos
-- flutter build linux
+- flutter build windows --no-sound-null-safety
+- flutter build macos --no-sound-null-safety
+- flutter build linux --no-sound-null-safety

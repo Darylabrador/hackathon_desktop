@@ -6,10 +6,13 @@ import 'package:window_size/window_size.dart';
 import './screens/splash_screen.dart';
 import './screens/login_screen.dart';
 import './screens/dashboard_screen.dart';
+import './screens/account_setting_screen.dart';
 import './screens/forgotten_password_screen.dart';
 
 import './providers/auth.dart';
 import './providers/password_reset.dart';
+import './providers/stats.dart';
+import './providers/account_setting.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,10 +35,19 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProxyProvider<Auth, PasswordReset>(
           create: (ctx) => PasswordReset(),
           update: (ct, auth, prevState) => PasswordReset(authToken: auth.token),
-        )
+        ),
+        ChangeNotifierProxyProvider<Auth, Stats>(
+          create: (ctx) => Stats(),
+          update: (ct, auth, prevState) => Stats(authToken: auth.token),
+        ),
+        ChangeNotifierProxyProvider<Auth, AccountSetting>(
+          create: (ctx) => AccountSetting(),
+          update: (ct, auth, prevState) =>
+              AccountSetting(authToken: auth.token),
+        ),
       ],
-      child: Consumer<Auth>(
-        builder: (ctx, authData, child) => MaterialApp(
+      child: Consumer<Auth>(builder: (ctx, authData, child) {
+        return MaterialApp(
           title: 'Hackathon',
           theme: ThemeData(
             primarySwatch: Colors.blue,
@@ -56,17 +68,22 @@ class MyApp extends StatelessWidget {
               ? const DashboardScreen()
               : FutureBuilder(
                   future: authData.tryAutoLogin(),
-                  builder: (ct, authSnapshot) =>
-                      authSnapshot.connectionState == ConnectionState.waiting
-                          ? const SplashScreen()
-                          : const LoginScreen(),
-                ),
+                  builder: (ct, authSnapshot) {
+                    if (authSnapshot.connectionState ==
+                        ConnectionState.waiting) {
+                      return const SplashScreen();
+                    }
+                    return const LoginScreen();
+                  }),
           routes: {
             ForgottenPasswordScreen.routeName: (ctx) =>
                 const ForgottenPasswordScreen(),
+            DashboardScreen.routeName: (ctx) => const DashboardScreen(),
+            AccountSettingScreen.routeName: (ctx) =>
+                const AccountSettingScreen(),
           },
-        ),
-      ),
+        );
+      }),
     );
   }
 }
