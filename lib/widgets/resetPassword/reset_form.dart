@@ -94,6 +94,10 @@ class _ResetFormState extends State<ResetForm> {
                 SizedBox(
                   width: 200,
                   child: ElevatedButton(
+                    style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(Colors.black45),
+                    ),
                     onPressed: () => widget.handleReseting(),
                     child: const Text('Annuler'),
                   ),

@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import '../widgets/custom_background.dart';
 import '../widgets/navigation/app_drawer.dart';
 
+import '../widgets/account/account_informations.dart';
+import '../widgets/account/account_password.dart';
+
 class AccountSettingScreen extends StatelessWidget {
   const AccountSettingScreen({Key? key}) : super(key: key);
   static const routeName = "/settings";
@@ -14,6 +17,7 @@ class AccountSettingScreen extends StatelessWidget {
         child: Scaffold(
           drawer: AppDrawer(customContext: context),
           appBar: AppBar(
+            backgroundColor: Theme.of(context).primaryColor,
             actions: [
               IconButton(
                 onPressed: () {},
@@ -55,9 +59,17 @@ class AccountSettingScreen extends StatelessWidget {
           body: const CustomBackground(
             TabBarView(
               children: [
-                Icon(Icons.directions_car),
-                Icon(Icons.directions_transit),
+                AccountInformations(),
+                AccountPassword(),
               ],
+            ),
+          ),
+          floatingActionButton: FloatingActionButton(
+            backgroundColor: const Color(0xFFFFDB00),
+            onPressed: () {},
+            child: const Icon(
+              Icons.delete,
+              color: Colors.redAccent,
             ),
           ),
         ),

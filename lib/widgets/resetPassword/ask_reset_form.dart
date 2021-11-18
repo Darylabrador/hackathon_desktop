@@ -67,6 +67,10 @@ class _AskResetFormState extends State<AskResetForm> {
                 SizedBox(
                   width: 200,
                   child: ElevatedButton(
+                    style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(Colors.black45),
+                    ),
                     onPressed: () {
                       Navigator.of(context)
                           .pushReplacementNamed(LoginScreen.routeName);

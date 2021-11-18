@@ -13,6 +13,7 @@ import './providers/auth.dart';
 import './providers/password_reset.dart';
 import './providers/stats.dart';
 import './providers/account_setting.dart';
+import './utils/palette.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -50,7 +51,10 @@ class MyApp extends StatelessWidget {
         return MaterialApp(
           title: 'Hackathon',
           theme: ThemeData(
-            primarySwatch: Colors.blue,
+            primarySwatch: Palette.bluePostale,
+            textButtonTheme: TextButtonThemeData(
+              style: TextButton.styleFrom(primary: Palette.yellowPostale[200]),
+            ),
             textTheme: ThemeData.light().textTheme.copyWith(
                   headline1: const TextStyle(
                     fontSize: 30,
@@ -61,6 +65,11 @@ class MyApp extends StatelessWidget {
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
+                  ),
+                  headline4: const TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
                   ),
                 ),
           ),

@@ -14,9 +14,11 @@ class Auth with ChangeNotifier {
   DateTime? _expiryDate;
   Timer? _authTimer;
 
+
   bool get isAuth {
     return token != null;
   }
+
 
   String? get token {
     if (_token != null &&
@@ -27,6 +29,7 @@ class Auth with ChangeNotifier {
     return null;
   }
 
+
   Future<void> _setSharedPreference(String? token, DateTime? expiryDate) async {
     final prefs = await SharedPreferences.getInstance();
     final userData = jsonEncode({
@@ -35,6 +38,7 @@ class Auth with ChangeNotifier {
     });
     await prefs.setString('userData', userData);
   }
+
 
   Future<Map<String, dynamic>> login(String email, String password) async {
     final url = Uri.parse("${ConstantVariables.startingURL}/login");
@@ -69,6 +73,7 @@ class Auth with ChangeNotifier {
     }
   }
 
+
   Future<bool> tryAutoLogin() async {
     final prefs = await SharedPreferences.getInstance();
     if (!prefs.containsKey("userData")) {
@@ -89,6 +94,7 @@ class Auth with ChangeNotifier {
     return true;
   }
 
+
   Future<void> logout() async {
     if (_authTimer != null) {
       _authTimer!.cancel();
@@ -103,6 +109,7 @@ class Auth with ChangeNotifier {
     final prefs = await SharedPreferences.getInstance();
     prefs.remove('userData');
   }
+
 
   void _autoLogout() {
     if (_authTimer != null) _authTimer!.cancel();
