@@ -89,7 +89,6 @@ class _AuthFormState extends State<AuthForm> {
                 ),
                 const SizedBox(height: 20),
                 TextButton(
-                  
                   onPressed: () {
                     Navigator.of(context).pushReplacementNamed(
                         ForgottenPasswordScreen.routeName);

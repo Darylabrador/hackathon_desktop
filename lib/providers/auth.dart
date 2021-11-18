@@ -106,8 +106,9 @@ class Auth with ChangeNotifier {
       _authTimer = null;
     }
 
-    final url = Uri.parse("${ConstantVariables.startingURL}/logout");
-    await http.get(url, headers: {'Authorization': "Bearer $_token"});
+    // final url = Uri.parse("${ConstantVariables.startingURL}/logout");
+    // await http.get(url, headers: {'Authorization': "Bearer $_token"});
+    
     _token = null;
     _expiryDate = null;
     notifyListeners();
