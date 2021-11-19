@@ -21,7 +21,7 @@ class _AccountInformationFormState extends State<AccountInformationForm> {
   final _firstnameController = TextEditingController();
   final _emailController = TextEditingController();
   final _yearOldController = TextEditingController();
-  Gender? _selectedGender;
+  late Gender _selectedGender;
   var _isValid = true;
   var _isInit = true;
 
@@ -39,8 +39,13 @@ class _AccountInformationFormState extends State<AccountInformationForm> {
     if (!_formKey.currentState!.validate()) {
       return;
     }
-
     _formKey.currentState!.save();
+
+    print(_surnameController.text);
+    print(_firstnameController.text);
+    print(_emailController.text);
+    print(_yearOldController.text);
+    print(_selectedGender.name);
   }
 
   void _handleSelect(Gender selectedValued) {
@@ -56,6 +61,16 @@ class _AccountInformationFormState extends State<AccountInformationForm> {
       _firstnameController.text = widget.accountData.firstname!;
       _emailController.text = widget.accountData.email!;
       _yearOldController.text = widget.accountData.yearOld!.toString();
+      switch (widget.accountData.gender!) {
+        case "femme" :
+          _selectedGender =  const Gender(id: 0, name: "femme");
+          break;
+        case "homme" :
+          _selectedGender =  const Gender(id: 1, name: "homme");
+          break;
+        default:
+        _selectedGender =  const Gender(id: 2, name: "non spécifié");
+      }
     }
     _isInit = false;
     super.didChangeDependencies();
@@ -122,7 +137,7 @@ class _AccountInformationFormState extends State<AccountInformationForm> {
             GenderSelectInput(
               isValid: _isValid,
               handleSelect: _handleSelect,
-              gender: widget.accountData.gender!,
+              selectedGender: _selectedGender,
             ),
             const SizedBox(height: 20),
             Row(
