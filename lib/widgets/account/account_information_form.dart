@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import '../../models/gender.dart';
+import '../../models/account.dart';
 import '../components/gender_select_input.dart';
 import '../components/custom_text_form_field.dart';
 
 class AccountInformationForm extends StatefulWidget {
-  const AccountInformationForm({Key? key}) : super(key: key);
+  final Account accountData;
+  const AccountInformationForm({
+    required this.accountData,
+    Key? key,
+  }) : super(key: key);
 
   @override
   _AccountInformationFormState createState() => _AccountInformationFormState();
@@ -18,6 +23,7 @@ class _AccountInformationFormState extends State<AccountInformationForm> {
   final _yearOldController = TextEditingController();
   Gender? _selectedGender;
   var _isValid = true;
+  var _isInit = true;
 
   void _submit() {
     if (_selectedGender is Gender) {
@@ -41,6 +47,18 @@ class _AccountInformationFormState extends State<AccountInformationForm> {
     setState(() {
       _selectedGender = selectedValued;
     });
+  }
+
+  @override
+  void didChangeDependencies() {
+    if (_isInit) {
+      _surnameController.text = widget.accountData.surname!;
+      _firstnameController.text = widget.accountData.firstname!;
+      _emailController.text = widget.accountData.email!;
+      _yearOldController.text = widget.accountData.yearOld!.toString();
+    }
+    _isInit = false;
+    super.didChangeDependencies();
   }
 
   @override
@@ -104,6 +122,7 @@ class _AccountInformationFormState extends State<AccountInformationForm> {
             GenderSelectInput(
               isValid: _isValid,
               handleSelect: _handleSelect,
+              gender: widget.accountData.gender!,
             ),
             const SizedBox(height: 20),
             Row(

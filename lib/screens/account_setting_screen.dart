@@ -5,9 +5,19 @@ import '../widgets/navigation/app_drawer.dart';
 import '../widgets/account/account_informations.dart';
 import '../widgets/account/account_password.dart';
 
-class AccountSettingScreen extends StatelessWidget {
+class AccountSettingScreen extends StatefulWidget {
   const AccountSettingScreen({Key? key}) : super(key: key);
   static const routeName = "/settings";
+
+  @override
+  State<AccountSettingScreen> createState() => _AccountSettingScreenState();
+}
+
+class _AccountSettingScreenState extends State<AccountSettingScreen> {
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +70,7 @@ class AccountSettingScreen extends StatelessWidget {
             TabBarView(
               children: [
                 AccountInformations(),
-                AccountPassword(),
+               AccountPassword(),
               ],
             ),
           ),

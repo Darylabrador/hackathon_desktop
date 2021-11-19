@@ -5,22 +5,46 @@ import '../../utils/palette.dart';
 class GenderSelectInput extends StatefulWidget {
   final bool isValid;
   final Function handleSelect;
-  const GenderSelectInput(
-      {required this.isValid, required this.handleSelect, Key? key})
-      : super(key: key);
+  final String gender;
+  const GenderSelectInput({
+    required this.isValid,
+    required this.handleSelect,
+    required this.gender,
+    Key? key,
+  }) : super(key: key);
 
   @override
   _GenderSelectInputState createState() => _GenderSelectInputState();
 }
 
 class _GenderSelectInputState extends State<GenderSelectInput> {
+  var _isInit = true;
+
   final genderList = [
-    Gender(id: 0, name: "Femme"),
-    Gender(id: 1, name: "Homme"),
-    Gender(id: 2, name: "Non spécifié"),
+    const Gender(id: 0, name: "femme"),
+    const Gender(id: 1, name: "homme"),
+    const Gender(id: 2, name: "non spécifié"),
   ];
 
   Gender? dropdownValue;
+
+  @override
+  void didChangeDependencies() {
+    if (_isInit) {
+      switch (widget.gender) {
+        case "femme" :
+          dropdownValue =  const Gender(id: 0, name: "femme");
+          break;
+        case "homme" :
+          dropdownValue =  const Gender(id: 1, name: "homme");
+          break;
+        default:
+        dropdownValue =  const Gender(id: 2, name: "non spécifié");
+      }
+    }
+    _isInit = false;
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {

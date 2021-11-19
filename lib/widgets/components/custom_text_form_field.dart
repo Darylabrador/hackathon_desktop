@@ -6,9 +6,11 @@ class CustomTextFormField extends StatefulWidget {
   final TextEditingController controller;
   final bool? obscureText;
   final String? Function(String?) validator;
+  final String? initialVal;
 
   const CustomTextFormField({
     Key? key,
+    this.initialVal,
     required this.labelText,
     required this.controller,
     this.obscureText,
@@ -23,6 +25,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      initialValue: widget.initialVal,
       decoration: InputDecoration(
         labelText: widget.labelText,
         focusedErrorBorder: const OutlineInputBorder(
