@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../widgets/navigation/app_drawer.dart';
-import '../widgets/custom_background.dart';
+import '../widgets/custom_background_scroll.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({Key? key}) : super(key: key);
@@ -21,9 +21,36 @@ class DashboardScreen extends StatelessWidget {
         ],
       ),
       drawer: const AppDrawer(),
-      body: const CustomBackground(
+      body: CustomBackgroundScroll(
         Center(
-          child: Text('dashboard'),
+          child: SizedBox(
+            width: 800,
+            child: Column(
+              children: const [
+                SizedBox(height: 100),
+                Text("test"),
+                SizedBox(height: 100),
+                Text("test"),
+                SizedBox(height: 100),
+                Text("test"),
+                SizedBox(height: 100),
+                Text("test"),
+                SizedBox(height: 100),
+                Text("test"),
+                SizedBox(height: 100),
+                Text("test"),
+                SizedBox(height: 100),
+                Text("test"),
+                SizedBox(height: 100),
+                Text("test"),
+                SizedBox(height: 100),
+                Text("test"),
+                SizedBox(height: 100),
+                Text("test"),
+                SizedBox(height: 100),
+              ],
+            ),
+          ),
         ),
       ),
     );

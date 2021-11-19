@@ -38,9 +38,7 @@ class _AccountPasswordFormState extends State<AccountPasswordForm> {
       );
       Snackbar.showScaffold(repData['message'], repData["success"], context);
       if (repData['success']) {
-        _oldPasswordController.text = "";
-        _passwordController.text = "";
-        _confirmPasswordController.text = "";
+        _resetForm();
       }
     } catch (e) {
       Snackbar.showScaffold(e.toString(), false, context);
@@ -51,6 +49,13 @@ class _AccountPasswordFormState extends State<AccountPasswordForm> {
     setState(() {
       _isHidden = !_isHidden;
     });
+  }
+
+  void _resetForm() {
+    _formKey.currentState!.reset();
+    _oldPasswordController.text = "";
+    _passwordController.text = "";
+    _confirmPasswordController.text = "";
   }
 
   @override
@@ -113,7 +118,7 @@ class _AccountPasswordFormState extends State<AccountPasswordForm> {
             ),
             const SizedBox(height: 20),
             DoubleButtonForm(
-              cancelHanlder: () => {},
+              cancelHanlder: _resetForm,
               cancelText: "Annuler",
               validHandler: () => _submit(context),
               validText: "Valider",

@@ -33,6 +33,7 @@ class _AccountInformationFormState extends State<AccountInformationForm> {
   late Gender _selectedGender;
   var _isValid = true;
   var _isInit = true;
+  late Account savedData;
 
   Future<void> _submit(BuildContext context) async {
     if (_selectedGender is Gender) {
@@ -73,23 +74,36 @@ class _AccountInformationFormState extends State<AccountInformationForm> {
     });
   }
 
+  void _setDataField(Account data) {
+    _surnameController.text = data.surname!;
+    _firstnameController.text = data.firstname!;
+    _emailController.text = data.email!;
+    _yearOldController.text = data.yearOld!.toString();
+    switch (data.gender!) {
+      case "femme":
+        _selectedGender = const Gender(id: 0, name: "femme");
+        break;
+      case "homme":
+        _selectedGender = const Gender(id: 1, name: "homme");
+        break;
+      default:
+        _selectedGender = const Gender(id: 2, name: "non spécifié");
+    }
+  }
+
+  void _resetForm() {
+    _formKey.currentState!.reset();
+    _setDataField(savedData);
+    setState(() {
+      
+    });
+  }
+
   @override
   void didChangeDependencies() {
     if (_isInit) {
-      _surnameController.text = widget.accountData.surname!;
-      _firstnameController.text = widget.accountData.firstname!;
-      _emailController.text = widget.accountData.email!;
-      _yearOldController.text = widget.accountData.yearOld!.toString();
-      switch (widget.accountData.gender!) {
-        case "femme":
-          _selectedGender = const Gender(id: 0, name: "femme");
-          break;
-        case "homme":
-          _selectedGender = const Gender(id: 1, name: "homme");
-          break;
-        default:
-          _selectedGender = const Gender(id: 2, name: "non spécifié");
-      }
+      savedData = widget.accountData;
+      _setDataField(widget.accountData);
     }
     _isInit = false;
     super.didChangeDependencies();
@@ -160,7 +174,7 @@ class _AccountInformationFormState extends State<AccountInformationForm> {
             ),
             const SizedBox(height: 20),
             DoubleButtonForm(
-              cancelHanlder: () => {},
+              cancelHanlder: _resetForm,
               cancelText: "Annuler",
               validHandler: () => _submit(context),
               validText: "Valider",

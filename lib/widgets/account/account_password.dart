@@ -7,25 +7,25 @@ class AccountPassword extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              width: 120,
-              height: 120,
-              decoration: const BoxDecoration(
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                  image: AssetImage("assets/images/secure.png"),
-                  fit: BoxFit.fill,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                width: 120,
+                height: 120,
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  image: DecorationImage(
+                    image: AssetImage("assets/images/secure.png"),
+                    fit: BoxFit.fill,
+                  ),
                 ),
               ),
-            ),
-            const SizedBox(height: 30),
-            const AccountPasswordForm()
-          ],
+              const SizedBox(height: 30),
+              const AccountPasswordForm()
+            ],
+          ),
         ),
-      ),
     );
   }
 }

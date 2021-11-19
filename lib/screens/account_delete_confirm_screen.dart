@@ -7,7 +7,7 @@ import '../screens/login_screen.dart';
 
 import '../widgets/components/custom_text_form_field.dart';
 import '../widgets/components/double_button_form.dart';
-import '../widgets/custom_background.dart';
+import '../widgets/custom_background_scroll.dart';
 
 import '../utils/snackbar.dart';
 
@@ -56,56 +56,54 @@ class _AccountDeleteConfirmScreenState
       appBar: AppBar(
         title: const Text("Suppression de compte"),
       ),
-      body: CustomBackground(
+      body: CustomBackgroundScroll(
         Center(
-          child: SingleChildScrollView(
-            child: SizedBox(
-              width: 570,
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  children: [
-                    const Text(
-                      "Vous nous quittez déjà ?",
-                      style: TextStyle(fontSize: 18),
-                    ),
-                    const SizedBox(height: 5),
-                    const Text(
-                      "Saissisez votre mot de passe pour confirmer la suppression",
-                    ),
-                    const SizedBox(height: 40),
-                    CustomTextFormField(
-                      labelText: "Mot de passe",
-                      controller: _passwordController,
-                      obscureText: true,
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return "Veuillez saisir votre mot de passe";
-                        }
-                        return null;
-                      },
-                    ),
-                    const SizedBox(height: 10),
-                    CustomTextFormField(
-                      labelText: "Confirmation mot de passe",
-                      controller: _passwordConfirmController,
-                      obscureText: true,
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return "Veuillez saisir votre confirmation mot de passe";
-                        }
-                        return null;
-                      },
-                    ),
-                    const SizedBox(height: 20),
-                    DoubleButtonForm(
-                      cancelHanlder: () => Navigator.of(context).pop(),
-                      cancelText: "Annuler",
-                      validHandler: () => _submit(context),
-                      validText: "Valider",
-                    ),
-                  ],
-                ),
+          child: SizedBox(
+            width: 570,
+            child: Form(
+              key: _formKey,
+              child: Column(
+                children: [
+                  const Text(
+                    "Vous nous quittez déjà ?",
+                    style: TextStyle(fontSize: 18),
+                  ),
+                  const SizedBox(height: 5),
+                  const Text(
+                    "Saissisez votre mot de passe pour confirmer la suppression",
+                  ),
+                  const SizedBox(height: 40),
+                  CustomTextFormField(
+                    labelText: "Mot de passe",
+                    controller: _passwordController,
+                    obscureText: true,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "Veuillez saisir votre mot de passe";
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 10),
+                  CustomTextFormField(
+                    labelText: "Confirmation mot de passe",
+                    controller: _passwordConfirmController,
+                    obscureText: true,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "Veuillez saisir votre confirmation mot de passe";
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 20),
+                  DoubleButtonForm(
+                    cancelHanlder: () => Navigator.of(context).pop(),
+                    cancelText: "Annuler",
+                    validHandler: () => _submit(context),
+                    validText: "Valider",
+                  ),
+                ],
               ),
             ),
           ),
