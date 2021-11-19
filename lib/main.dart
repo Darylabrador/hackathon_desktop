@@ -8,6 +8,7 @@ import './screens/login_screen.dart';
 import './screens/dashboard_screen.dart';
 import './screens/account_setting_screen.dart';
 import './screens/forgotten_password_screen.dart';
+import './screens/account_delete_confirm_screen.dart';
 
 import './providers/auth.dart';
 import './providers/password_reset.dart';
@@ -90,6 +91,8 @@ class MyApp extends StatelessWidget {
             DashboardScreen.routeName: (ctx) => const DashboardScreen(),
             AccountSettingScreen.routeName: (ctx) =>
                 const AccountSettingScreen(),
+            AccountDeleteConfirmScreen.routeName: (ctx) =>
+                const AccountDeleteConfirmScreen(),
           },
         );
       }),

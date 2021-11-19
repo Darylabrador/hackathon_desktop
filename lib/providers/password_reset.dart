@@ -10,15 +10,17 @@ class PasswordReset with ChangeNotifier {
   final String? authToken;
   PasswordReset({this.authToken});
 
-  Future<Map<String, dynamic>> loggedOutResetingAsk(String email) async {
-    final url = Uri.parse("${ConstantVariables.startingURL}/reset/ask");
+  Future<Map<String, dynamic>> loggedOutResetingAsk(
+    String email,
+  ) async {
+    final url = Uri.parse(
+      "${ConstantVariables.startingURL}/reset/ask",
+    );
     try {
       final response = await http.post(
         url,
         body: jsonEncode({'email': email, 'isWeb': false}),
-        headers: {
-          "Content-Type": "application/json"
-        },
+        headers: {"Content-Type": "application/json"},
       );
       final responseData = jsonDecode(response.body);
       return responseData;
@@ -28,8 +30,13 @@ class PasswordReset with ChangeNotifier {
   }
 
   Future<Map<String, dynamic>> loggedOutResetingPassword(
-      String newPassword, String newPasswordConfirm, String? resetToken) async {
-    final url = Uri.parse("${ConstantVariables.startingURL}/reset/password");
+    String newPassword,
+    String newPasswordConfirm,
+    String? resetToken,
+  ) async {
+    final url = Uri.parse(
+      "${ConstantVariables.startingURL}/reset/password",
+    );
     try {
       final response = await http.post(
         url,
@@ -38,7 +45,33 @@ class PasswordReset with ChangeNotifier {
           'newPasswordConfirm': newPasswordConfirm,
           'resetToken': resetToken,
         }),
+        headers: {"Content-Type": "application/json"},
+      );
+      final responseData = jsonDecode(response.body);
+      return responseData;
+    } catch (e) {
+      throw HttpException("Veuillez réessayer ultérieurement");
+    }
+  }
+
+  Future<Map<String, dynamic>> loggedInResetingPassword(
+    String oldPass,
+    String newPass,
+    String newPassConfirm,
+  ) async {
+    final url = Uri.parse(
+      "${ConstantVariables.startingURL}/account/password",
+    );
+    try {
+      final response = await http.post(
+        url,
+        body: jsonEncode({
+          'oldPassword': oldPass,
+          'password': newPass,
+          'passwordConfirm': newPassConfirm,
+        }),
         headers: {
+          "Authorization": "Bearer $authToken",
           "Content-Type": "application/json"
         },
       );

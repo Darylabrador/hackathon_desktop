@@ -23,4 +23,62 @@ class AccountSetting with ChangeNotifier {
       throw HttpException("Veuillez réessayer ultérieurement");
     }
   }
+
+  Future<Map<String, dynamic>> updateAccount(
+    String email,
+    String surname,
+    String firstname,
+    int gender,
+    int age,
+  ) async {
+    final url = Uri.parse(
+      "${ConstantVariables.startingURL}/account/informations",
+    );
+    try {
+      final response = await http.post(
+        url,
+        body: jsonEncode({
+          'email': email,
+          'surname': surname,
+          'firstname': firstname,
+          'gender': gender,
+          'age': age,
+        }),
+        headers: {
+          "Authorization": "Bearer $authToken",
+          "Content-Type": "application/json"
+        },
+      );
+      final responseData = jsonDecode(response.body);
+      return responseData;
+    } catch (e) {
+      throw HttpException("Veuillez réessayer ultérieurement");
+    }
+  }
+
+  Future<Map<String, dynamic>> deleteAccount(
+    String password,
+    String passwordConfirm,
+  ) async {
+    final url = Uri.parse(
+      "${ConstantVariables.startingURL}/account/delete",
+    );
+    try {
+      final response = await http.post(
+        url,
+        body: jsonEncode({
+          'password': password,
+          'passwordConfirm': passwordConfirm,
+        }),
+        headers: {
+          "Authorization": "Bearer $authToken",
+          "Content-Type": "application/json"
+        },
+      );
+      final responseData = jsonDecode(response.body);
+      return responseData;
+    } catch (e) {
+      throw HttpException("Veuillez réessayer ultérieurement");
+    }
+  }
 }

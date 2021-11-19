@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../utils/snackbar.dart';
+
 import '../../providers/password_reset.dart';
 
 import '../../screens/login_screen.dart';
+
+import '../../utils/snackbar.dart';
+
+import '../components/double_button_form.dart';
 
 class ResetForm extends StatefulWidget {
   final Function handleReseting;
@@ -88,28 +92,11 @@ class _ResetFormState extends State<ResetForm> {
             const SizedBox(
               height: 20,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                SizedBox(
-                  width: 200,
-                  child: ElevatedButton(
-                    style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all<Color>(Colors.black45),
-                    ),
-                    onPressed: () => widget.handleReseting(),
-                    child: const Text('Annuler'),
-                  ),
-                ),
-                SizedBox(
-                  width: 200,
-                  child: ElevatedButton(
-                    onPressed: () => _submit(context),
-                    child: const Text('Valider'),
-                  ),
-                ),
-              ],
+            DoubleButtonForm(
+              cancelHanlder: () => widget.handleReseting(),
+              cancelText: "Annuler",
+              validHandler: () => _submit(context),
+              validText: "Valider",
             ),
           ],
         ),

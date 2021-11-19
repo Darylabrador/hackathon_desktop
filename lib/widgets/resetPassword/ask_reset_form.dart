@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../../providers/password_reset.dart';
 import '../../utils/snackbar.dart';
 import '../../screens/login_screen.dart';
+import '../components/double_button_form.dart';
 
 class AskResetForm extends StatefulWidget {
   final Function handleReseting;
@@ -61,31 +62,15 @@ class _AskResetFormState extends State<AskResetForm> {
             const SizedBox(
               height: 20,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                SizedBox(
-                  width: 200,
-                  child: ElevatedButton(
-                    style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all<Color>(Colors.black45),
-                    ),
-                    onPressed: () {
-                      Navigator.of(context)
-                          .pushReplacementNamed(LoginScreen.routeName);
-                    },
-                    child: const Text('Retour'),
-                  ),
-                ),
-                SizedBox(
-                  width: 200,
-                  child: ElevatedButton(
-                    onPressed: () => _submit(context),
-                    child: const Text('Valider'),
-                  ),
-                ),
-              ],
+            DoubleButtonForm(
+              cancelHanlder: () {
+                Navigator.of(context).pushReplacementNamed(
+                  LoginScreen.routeName,
+                );
+              },
+              cancelText: "Retour",
+              validHandler: () => _submit(context),
+              validText: "Valider",
             ),
           ],
         ),

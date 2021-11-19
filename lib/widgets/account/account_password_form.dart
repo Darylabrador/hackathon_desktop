@@ -1,5 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../providers/password_reset.dart';
+
 import '../components/custom_text_form_field.dart';
+import '../components/double_button_form.dart';
+
+import '../../utils/snackbar.dart';
 
 class AccountPasswordForm extends StatefulWidget {
   const AccountPasswordForm({Key? key}) : super(key: key);
@@ -13,12 +20,37 @@ class _AccountPasswordFormState extends State<AccountPasswordForm> {
   final _oldPasswordController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
+  var _isHidden = true;
 
-  void _submit() {
+  Future<void> _submit(BuildContext context) async {
     if (!_formKey.currentState!.validate()) {
       return;
     }
     _formKey.currentState!.save();
+    try {
+      Map<String, dynamic> repData = await Provider.of<PasswordReset>(
+        context,
+        listen: false,
+      ).loggedInResetingPassword(
+        _oldPasswordController.text.trim(),
+        _passwordController.text.trim(),
+        _confirmPasswordController.text.trim(),
+      );
+      Snackbar.showScaffold(repData['message'], repData["success"], context);
+      if (repData['success']) {
+        _oldPasswordController.text = "";
+        _passwordController.text = "";
+        _confirmPasswordController.text = "";
+      }
+    } catch (e) {
+      Snackbar.showScaffold(e.toString(), false, context);
+    }
+  }
+
+  void _showPassword() {
+    setState(() {
+      _isHidden = !_isHidden;
+    });
   }
 
   @override
@@ -32,7 +64,7 @@ class _AccountPasswordFormState extends State<AccountPasswordForm> {
             CustomTextFormField(
               labelText: "Ancien mot de passe",
               controller: _oldPasswordController,
-              obscureText: true,
+              obscureText: _isHidden,
               validator: (value) {
                 if (value!.isEmpty) {
                   return 'Veuillez saisir votre ancien mot de passe';
@@ -44,10 +76,13 @@ class _AccountPasswordFormState extends State<AccountPasswordForm> {
             CustomTextFormField(
               labelText: "Nouveau mot de passe",
               controller: _passwordController,
-              obscureText: true,
+              obscureText: _isHidden,
               validator: (value) {
                 if (value!.isEmpty) {
                   return 'Veuillez saisir votre nouveau mot de passe';
+                }
+                if (value.length < 5) {
+                  return 'Il faut au minimum 5 caractères';
                 }
                 return null;
               },
@@ -56,41 +91,34 @@ class _AccountPasswordFormState extends State<AccountPasswordForm> {
             CustomTextFormField(
               labelText: "Confirmation mot de passe",
               controller: _confirmPasswordController,
-              obscureText: true,
+              obscureText: _isHidden,
               validator: (value) {
                 if (value!.isEmpty) {
                   return 'Veuillez confirmer votre mot de passe';
                 }
+                if (value.length < 5) {
+                  return 'Il faut au minimum 5 caractères';
+                }
                 return null;
               },
             ),
-            const SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(
-                  width: 200,
-                  child: ElevatedButton(
-                    style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all<Color>(Colors.black45),
-                    ),
-                    onPressed: () => {},
-                    child: const Text('Annuler'),
-                  ),
-                ),
-                const SizedBox(
-                  width: 15,
-                ),
-                SizedBox(
-                  width: 200,
-                  child: ElevatedButton(
-                    onPressed: _submit,
-                    child: const Text('Valider'),
-                  ),
-                ),
-              ],
+            const SizedBox(height: 10),
+            TextButton(
+              onPressed: _showPassword,
+              child: Text(
+                _isHidden
+                    ? "Afficher le mot de passe"
+                    : "Cacher le mot de passe",
+              ),
             ),
+            const SizedBox(height: 20),
+            DoubleButtonForm(
+              cancelHanlder: () => {},
+              cancelText: "Annuler",
+              validHandler: () => _submit(context),
+              validText: "Valider",
+            ),
+            const SizedBox(height: 20),
           ],
         ),
       ),

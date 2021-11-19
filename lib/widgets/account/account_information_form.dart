@@ -1,8 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../providers/account_setting.dart';
+
 import '../../models/gender.dart';
 import '../../models/account.dart';
+
 import '../components/gender_select_input.dart';
 import '../components/custom_text_form_field.dart';
+
+import '../components/double_button_form.dart';
+
+import '../../utils/snackbar.dart';
 
 class AccountInformationForm extends StatefulWidget {
   final Account accountData;
@@ -25,7 +34,7 @@ class _AccountInformationFormState extends State<AccountInformationForm> {
   var _isValid = true;
   var _isInit = true;
 
-  void _submit() {
+  Future<void> _submit(BuildContext context) async {
     if (_selectedGender is Gender) {
       setState(() {
         _isValid = true;
@@ -41,11 +50,21 @@ class _AccountInformationFormState extends State<AccountInformationForm> {
     }
     _formKey.currentState!.save();
 
-    print(_surnameController.text);
-    print(_firstnameController.text);
-    print(_emailController.text);
-    print(_yearOldController.text);
-    print(_selectedGender.name);
+    try {
+      Map<String, dynamic> repData = await Provider.of<AccountSetting>(
+        context,
+        listen: false,
+      ).updateAccount(
+        _emailController.text.trim(),
+        _surnameController.text.trim(),
+        _firstnameController.text.trim(),
+        _selectedGender.id,
+        int.parse(_yearOldController.text),
+      );
+      Snackbar.showScaffold(repData['message'], repData["success"], context);
+    } catch (e) {
+      Snackbar.showScaffold(e.toString(), false, context);
+    }
   }
 
   void _handleSelect(Gender selectedValued) {
@@ -62,14 +81,14 @@ class _AccountInformationFormState extends State<AccountInformationForm> {
       _emailController.text = widget.accountData.email!;
       _yearOldController.text = widget.accountData.yearOld!.toString();
       switch (widget.accountData.gender!) {
-        case "femme" :
-          _selectedGender =  const Gender(id: 0, name: "femme");
+        case "femme":
+          _selectedGender = const Gender(id: 0, name: "femme");
           break;
-        case "homme" :
-          _selectedGender =  const Gender(id: 1, name: "homme");
+        case "homme":
+          _selectedGender = const Gender(id: 1, name: "homme");
           break;
         default:
-        _selectedGender =  const Gender(id: 2, name: "non spécifié");
+          _selectedGender = const Gender(id: 2, name: "non spécifié");
       }
     }
     _isInit = false;
@@ -140,31 +159,11 @@ class _AccountInformationFormState extends State<AccountInformationForm> {
               selectedGender: _selectedGender,
             ),
             const SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(
-                  width: 200,
-                  child: ElevatedButton(
-                    style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all<Color>(Colors.black45),
-                    ),
-                    onPressed: () => {},
-                    child: const Text('Annuler'),
-                  ),
-                ),
-                const SizedBox(
-                  width: 15,
-                ),
-                SizedBox(
-                  width: 200,
-                  child: ElevatedButton(
-                    onPressed: _submit,
-                    child: const Text('Valider'),
-                  ),
-                ),
-              ],
+            DoubleButtonForm(
+              cancelHanlder: () => {},
+              cancelText: "Annuler",
+              validHandler: () => _submit(context),
+              validText: "Valider",
             ),
             const SizedBox(height: 20),
           ],
