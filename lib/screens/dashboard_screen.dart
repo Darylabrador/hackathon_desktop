@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 import '../widgets/navigation/app_drawer.dart';
 import '../widgets/custom_background_scroll.dart';
+import '../widgets/charts/displayed_chart.dart';
 
-import '../widgets/charts/outside_label_pie_chart.dart';
-import '../widgets/charts/horizontal_bar_label_chart.dart';
-import '../widgets/components/custom_data_table.dart';
-
-class DashboardScreen extends StatelessWidget {
+class DashboardScreen extends StatefulWidget {
   const DashboardScreen({Key? key}) : super(key: key);
   static const routeName = '/dashboard';
 
   @override
+  State<DashboardScreen> createState() => _DashboardScreenState();
+}
+
+class _DashboardScreenState extends State<DashboardScreen> {
+  @override
   Widget build(BuildContext context) {
-    final mediaQuery = MediaQuery.of(context);
+        final mediaQuery = MediaQuery.of(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -31,7 +33,7 @@ class DashboardScreen extends StatelessWidget {
         Center(
           child: Column(
             children: [
-              const SizedBox(height: 80),
+              SizedBox(height: mediaQuery.size.height * 0.08),
               Text(
                 "Hackathon",
                 style: Theme.of(context).textTheme.headline1,
@@ -44,54 +46,9 @@ class DashboardScreen extends StatelessWidget {
                 width: 250.0,
                 child: Divider(),
               ),
-              const SizedBox(height: 50),
-              SizedBox(
-                height: mediaQuery.size.height * 0.4,
-                width: mediaQuery.size.width * 0.6,
-                child: Card(
-                  elevation: 5,
-                  child: Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: PieOutsideLabelChart.withSampleData(),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 50),
-              SizedBox(
-                height: mediaQuery.size.height * 0.4,
-                width: mediaQuery.size.width * 0.6,
-                child: Card(
-                  elevation: 5,
-                  child: Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: HorizontalBarLabelChart.withSampleData(),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 50),
-              SizedBox(
-                width: mediaQuery.size.width * 0.6,
-                child: const Card(
-                  elevation: 5,
-                  child: Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: CustomDataTable(),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 80),
+              const SizedBox(height: 30),
+              const DisplayedChart(),
+              const SizedBox(height: 20),
             ],
           ),
         ),
