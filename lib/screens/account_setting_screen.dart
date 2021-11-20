@@ -56,15 +56,6 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
           drawer: AppDrawer(customContext: context),
           appBar: AppBar(
             backgroundColor: Theme.of(context).primaryColor,
-            actions: [
-              IconButton(
-                onPressed: () {},
-                icon: const Icon(Icons.refresh),
-              ),
-              const SizedBox(
-                width: 30,
-              )
-            ],
             bottom: TabBar(
               tabs: [
                 Tab(
