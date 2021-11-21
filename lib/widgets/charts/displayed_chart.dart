@@ -132,7 +132,9 @@ class _DisplayedChartState extends State<DisplayedChart> {
                   _isShowingTable = !_isShowingTable;
                 });
               },
-              child: const Text("Changer de mode"),
+              child: Text(
+                _isShowingTable ? "Voir les graphiques" : "Voir les tableaux",
+              ),
             ),
             const SizedBox(width: 40),
             if (!_isShowingTable)

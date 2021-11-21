@@ -64,6 +64,14 @@ class _TeamByPhaseDataTableState extends State<TeamByPhaseDataTable> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
+        Center(
+          child: Column(
+            children: const [
+              Text("Equipes par phase", style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),),
+              Divider(),
+            ],
+          ),
+        ),
         Card(
           child: ListTile(
             leading: const Icon(Icons.search),

@@ -70,6 +70,17 @@ class _ParticipantDataTableState extends State<ParticipantDataTable> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
+        Center(
+          child: Column(
+            children: const [
+              Text(
+                "Participants",
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+              ),
+              Divider(),
+            ],
+          ),
+        ),
         Card(
           child: ListTile(
             leading: const Icon(Icons.search),
