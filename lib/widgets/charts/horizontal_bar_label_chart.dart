@@ -1,6 +1,6 @@
-/// Horizontal bar chart with bar label renderer example and hidden domain axis.
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/material.dart';
+import '../../models/statistique.dart';
 
 class HorizontalBarLabelChart extends StatelessWidget {
   final List<charts.Series<dynamic, String>> seriesList;
@@ -12,11 +12,9 @@ class HorizontalBarLabelChart extends StatelessWidget {
     required this.animate,
   }) : super(key: key);
 
-  /// Creates a [BarChart] with sample data and no transition.
-  factory HorizontalBarLabelChart.withSampleData() {
+  static display(List<Statistique> data) {
     return HorizontalBarLabelChart(
-      _createSampleData(),
-      // Disable animations for image tests.
+      _createGraph(data),
       animate: false,
     );
   }
@@ -34,31 +32,14 @@ class HorizontalBarLabelChart extends StatelessWidget {
     );
   }
 
-  /// Create one series with sample hard coded data.
-  static List<charts.Series<OrdinalSales, String>> _createSampleData() {
-    final data = [
-      OrdinalSales('2014', 5),
-      OrdinalSales('2015', 25),
-      OrdinalSales('2016', 100),
-      OrdinalSales('2017', 75),
-    ];
-
+  static List<charts.Series<Statistique, String>> _createGraph(List<Statistique> data) {
     return [
-      charts.Series<OrdinalSales, String>(
-          id: 'Sales',
-          domainFn: (OrdinalSales sales, _) => sales.year,
-          measureFn: (OrdinalSales sales, _) => sales.sales,
+      charts.Series<Statistique, String>(
+          id: 'Stats',
+          domainFn: (Statistique sales, _) => sales.label,
+          measureFn: (Statistique sales, _) => sales.data,
           data: data,
-          // Set a label accessor to control the text of the bar label.
-          labelAccessorFn: (OrdinalSales sales, _) =>
-              '${sales.year}: \$${sales.sales.toString()}')
+          labelAccessorFn: (Statistique sales, _) => '${sales.label}: ${sales.data.toString()} équipe(s)',)
     ];
   }
-}
-
-/// Sample ordinal data type.
-class OrdinalSales {
-  final String year;
-  final int sales;
-  OrdinalSales(this.year, this.sales);
 }

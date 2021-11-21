@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../providers/stats.dart';
+import '../../models/statistique.dart';
 
 import './horizontal_bar_label_chart.dart';
 import './outside_label_pie_chart.dart';
@@ -32,42 +36,70 @@ class _StatiqueDisplayedState extends State<StatiqueDisplayed> {
             ],
           ),
         ),
-        const SizedBox(height: 15,),
+        const SizedBox(
+          height: 15,
+        ),
         if (!widget.isPhaseState)
-          SizedBox(
-            height: mediaQuery.size.height * 0.41,
-            width: mediaQuery.size.width * 0.7,
-            child: Card(
-              elevation: 5,
-              child: Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: PieOutsideLabelChart.withSampleData(),
+          FutureBuilder(
+            future: Provider.of<Stats>(
+              context,
+              listen: false,
+            ).getStatsParticipants(),
+            builder: (ctx, AsyncSnapshot<List<Statistique>?> graphSnapshot) {
+              if (graphSnapshot.connectionState == ConnectionState.waiting) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+              return SizedBox(
+                height: mediaQuery.size.height * 0.41,
+                width: mediaQuery.size.width * 0.7,
+                child: Card(
+                  elevation: 5,
+                  child: Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: PieOutsideLabelChart.display(graphSnapshot.data!),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
-              ),
-            ),
+              );
+            },
           ),
         if (widget.isPhaseState)
-          SizedBox(
-            height: mediaQuery.size.height * 0.41,
-            width: mediaQuery.size.width * 0.7,
-            child: Card(
-              elevation: 5,
-              child: Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: HorizontalBarLabelChart.withSampleData(),
+          FutureBuilder(
+            future: Provider.of<Stats>(
+              context,
+              listen: false,
+            ).getStatsTeamByPhase(),
+            builder: (ctx, AsyncSnapshot<List<Statistique>?> graphSnapshot) {
+              if (graphSnapshot.connectionState == ConnectionState.waiting) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+              return SizedBox(
+                height: mediaQuery.size.height * 0.41,
+                width: mediaQuery.size.width * 0.7,
+                child: Card(
+                  elevation: 5,
+                  child: Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: HorizontalBarLabelChart.display(graphSnapshot.data!),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
-              ),
-            ),
+              );
+            },
           ),
       ],
     );

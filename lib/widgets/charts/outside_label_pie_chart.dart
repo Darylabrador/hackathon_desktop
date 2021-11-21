@@ -1,6 +1,6 @@
-/// Simple pie chart with outside labels example.
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/material.dart';
+import '../../models/statistique.dart';
 
 class PieOutsideLabelChart extends StatelessWidget {
   final List<charts.Series> seriesList;
@@ -12,11 +12,9 @@ class PieOutsideLabelChart extends StatelessWidget {
     required this.animate,
   }) : super(key: key);
 
-  /// Creates a [PieChart] with sample data and no transition.
-  factory PieOutsideLabelChart.withSampleData() {
+  static display(List<Statistique> data) {
     return PieOutsideLabelChart(
-      _createSampleData(),
-      // Disable animations for image tests.
+      _createGraph(data),
       animate: false,
     );
   }
@@ -36,30 +34,15 @@ class PieOutsideLabelChart extends StatelessWidget {
     );
   }
 
-  /// Create one series with sample hard coded data.
-  static List<charts.Series<LinearSales, int>> _createSampleData() {
-    final data = [
-      LinearSales(0, 5, "Coachs"),
-      LinearSales(1, 15, "Participants"),
-    ];
-
+  static List<charts.Series<Statistique, int>> _createGraph(List<Statistique> data) {
     return [
-      charts.Series<LinearSales, int>(
-        id: 'Sales',
-        domainFn: (LinearSales sales, _) => sales.id,
-        measureFn: (LinearSales sales, _) => sales.pourcentage,
+      charts.Series<Statistique, int>(
+        id: 'Stats',
+        domainFn: (Statistique sales, _) => sales.id,
+        measureFn: (Statistique sales, _) => sales.data,
         data: data,
-        // Set a label accessor to control the text of the arc label.
-        labelAccessorFn: (LinearSales row, _) => '${row.label} (${row.pourcentage})',
+        labelAccessorFn: (Statistique row, _) => '${row.label} (${row.data})',
       )
     ];
   }
-}
-
-/// Sample linear data type.
-class LinearSales {
-  final int id;
-  final int pourcentage;
-  final String label;
-  LinearSales(this.id, this.pourcentage, this.label);
 }

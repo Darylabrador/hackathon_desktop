@@ -4,6 +4,8 @@ import './statistique_displayed.dart';
 import './participant_data_table.dart';
 import './team_by_phase_data_table.dart';
 
+import '../../models/statistique.dart';
+
 class DisplayedChart extends StatefulWidget {
   const DisplayedChart({Key? key}) : super(key: key);
 
@@ -12,89 +14,22 @@ class DisplayedChart extends StatefulWidget {
 }
 
 class _DisplayedChartState extends State<DisplayedChart> {
-  Iterable<Map<String, dynamic>> rows = [
+  late List<Statistique> graphDataParticipant;
+  late List<Statistique> graphDataTeamByPhase;
+
+  Iterable<Map<String, dynamic>> rowsDataParticipant = [
     {
       "name": "Sarah",
       "age": "19",
       "role": "Student",
     },
-    {
-      "name": "Janine",
-      "age": "43",
-      "role": "Professor",
-    },
-    {
-      "name": "William",
-      "age": "27",
-      "role": "Associate Professor",
-    },
-    {
-      "name": "William",
-      "age": "27",
-      "role": "Associate Professor",
-    },
-    {
-      "name": "William",
-      "age": "27",
-      "role": "Associate Professor",
-    },
-    {
-      "name": "William",
-      "age": "27",
-      "role": "Associate Professor",
-    },
-    {
-      "name": "William",
-      "age": "27",
-      "role": "Associate Professor",
-    },
   ];
 
-  Iterable<Map<String, dynamic>> rows2 = [
+  Iterable<Map<String, dynamic>> rowsDataTeamByPhase = [
     {
       "name": "Olivier",
       "age": "19",
       "role": "Informaticien",
-    },
-    {
-      "name": "John",
-      "age": "43",
-      "role": "Développeur",
-    },
-    {
-      "name": "David",
-      "age": "27",
-      "role": "Journaliste",
-    },
-    {
-      "name": "Olivier",
-      "age": "19",
-      "role": "Informaticien",
-    },
-    {
-      "name": "John",
-      "age": "43",
-      "role": "Développeur",
-    },
-    {
-      "name": "David",
-      "age": "27",
-      "role": "Journaliste",
-    },
-    {
-      "name": "Olivier",
-      "age": "19",
-      "role": "Informaticien",
-    },
-    {
-      "name": "John",
-      "age": "43",
-      "role": "Développeur",
-    },
-    {
-      "name": "David",
-      "age": "27",
-      "role": "Journaliste",
     },
   ];
 
@@ -116,9 +51,9 @@ class _DisplayedChartState extends State<DisplayedChart> {
                 padding: const EdgeInsets.all(8.0),
                 child: _isPhaseStats
                     ? TeamByPhaseDataTable(
-                        rowData: rows2,
+                        rowData: rowsDataTeamByPhase,
                       )
-                    : ParticipantDataTable(rowData: rows),
+                    : ParticipantDataTable(rowData: rowsDataParticipant),
               ),
             ),
           ),

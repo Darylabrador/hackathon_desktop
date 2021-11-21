@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 
 class ParticipantDataTable extends StatefulWidget {
   final Iterable<Map<String, dynamic>> rowData;
-  const ParticipantDataTable({required this.rowData, Key? key})
-      : super(key: key);
+  const ParticipantDataTable({
+    required this.rowData,
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<ParticipantDataTable> createState() => _ParticipantDataTableState();
