@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../providers/stats.dart';
-import '../../models/statistique.dart';
+import '../../../providers/stats.dart';
+import '../../../models/statistique.dart';
 
 import './horizontal_bar_label_chart.dart';
 import './outside_label_pie_chart.dart';

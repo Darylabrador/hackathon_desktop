@@ -52,6 +52,7 @@ class _AccountDeleteConfirmScreenState
 
   @override
   Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text("Suppression de compte"),
@@ -64,6 +65,7 @@ class _AccountDeleteConfirmScreenState
               key: _formKey,
               child: Column(
                 children: [
+                  SizedBox(height: mediaQuery.size.height * 0.25),
                   const Text(
                     "Vous nous quittez déjà ?",
                     style: TextStyle(fontSize: 18),

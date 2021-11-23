@@ -13,11 +13,14 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
     return Scaffold(
       body: CustomBackgroundScroll(
+        
         Center(
           child: Column(
             children: [
+              SizedBox(height: mediaQuery.size.height * 0.15),
               Text(
                 "Hackathon",
                 style: Theme.of(context).textTheme.headline1,

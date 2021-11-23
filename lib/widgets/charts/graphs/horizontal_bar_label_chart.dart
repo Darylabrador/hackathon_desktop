@@ -1,6 +1,6 @@
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/material.dart';
-import '../../models/statistique.dart';
+import '../../../models/statistique.dart';
 
 class HorizontalBarLabelChart extends StatelessWidget {
   final List<charts.Series<dynamic, String>> seriesList;

@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../providers/phase_provider.dart';
+
 import '../widgets/navigation/app_drawer.dart';
 import '../widgets/custom_background_scroll.dart';
 import '../widgets/charts/displayed_chart.dart';
@@ -13,8 +17,14 @@ class DashboardScreen extends StatefulWidget {
 
 class _DashboardScreenState extends State<DashboardScreen> {
   @override
+  void initState() {
+    Provider.of<PhaseProvider>(context, listen: false).getPhaseList();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-        final mediaQuery = MediaQuery.of(context);
+    final mediaQuery = MediaQuery.of(context);
 
     return Scaffold(
       appBar: AppBar(

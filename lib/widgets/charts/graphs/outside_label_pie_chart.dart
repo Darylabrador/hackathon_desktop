@@ -1,6 +1,6 @@
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/material.dart';
-import '../../models/statistique.dart';
+import '../../../models/statistique.dart';
 
 class PieOutsideLabelChart extends StatelessWidget {
   final List<charts.Series> seriesList;
