@@ -4,6 +4,7 @@ class TeamByPhase {
   final String leader;
   final String teamName;
   final int phaseActual;
+  final String? phaseName;
 
   TeamByPhase({
     required this.projectId,
@@ -11,5 +12,6 @@ class TeamByPhase {
     required this.leader,
     required this.phaseActual,
     required this.projectData,
+    this.phaseName
   });
 }

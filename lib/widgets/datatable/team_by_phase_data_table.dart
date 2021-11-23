@@ -31,10 +31,24 @@ class _TeamByPhaseDataTableState extends State<TeamByPhaseDataTable> {
   @override
   void didChangeDependencies() async {
     if (_isInit) {
-      final initialData = await Provider.of<Stats>(context, listen: false)
-          .getTeamByPhaseDataTableInfo();
-      iterableRows = initialData.toList();
-      rowsDataTeamByPhase = initialData.toList();
+      final structuredData = <TeamByPhase>[];
+      final initialData = await Provider.of<Stats>(context, listen: false).getTeamByPhaseDataTableInfo();
+
+      for (var element in initialData) {
+        var phaseName = widget.phaseList.firstWhere(
+          (phase) => phase.id.toString() == element.phaseActual.toString(),
+        );
+        structuredData.add(TeamByPhase(
+            projectId: element.projectId,
+            teamName: element.teamName,
+            leader: element.leader,
+            phaseActual: element.phaseActual,
+            projectData: element.projectData,
+            phaseName: phaseName.name));
+      }
+
+      iterableRows = structuredData;
+      rowsDataTeamByPhase = structuredData;
     }
     setState(() {
       _isInit = false;
@@ -51,7 +65,7 @@ class _TeamByPhaseDataTableState extends State<TeamByPhaseDataTable> {
           cells: <DataCell>[
             DataCell(Text(element.teamName)),
             DataCell(Text(element.leader)),
-            DataCell(Text(element.phaseActual.toString())),
+            DataCell(Text(element.phaseName!)),
             DataCell(
               Row(
                 children: [
@@ -111,10 +125,10 @@ class _TeamByPhaseDataTableState extends State<TeamByPhaseDataTable> {
         (element) =>
             element.teamName.toString().toLowerCase().contains(searchText) ||
             element.leader.toString().toLowerCase().contains(searchText) ||
-            element.phaseActual.toString().toLowerCase().contains(searchText) ||
+            element.phaseName!.toString().toLowerCase().contains(searchText) ||
             element.teamName.toString().contains(searchText) ||
             element.leader.toString().contains(searchText) ||
-            element.phaseActual.toString().contains(searchText),
+            element.phaseName!.toString().contains(searchText),
       );
       setState(() {
         iterableRows = result;
