@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../models/statistique.dart';
+import '../models/statistique.dart';
 
-import './graphs/statistique_displayed.dart';
-import './datatable/participant_data_table.dart';
-import './datatable/team_by_phase_data_table.dart';
+import './charts/chart_displayed.dart';
+import 'datatable/participant_data_table.dart';
+import 'datatable/team_by_phase_data_table.dart';
 
-import '../../providers/phase_provider.dart';
+import '../providers/phase_provider.dart';
 
 class DisplayedChart extends StatefulWidget {
   const DisplayedChart({Key? key}) : super(key: key);
@@ -28,7 +28,7 @@ class _DisplayedChartState extends State<DisplayedChart> {
     final mediaQuery = MediaQuery.of(context);
     return Column(
       children: [
-        if (!_isShowingTable) StatiqueDisplayed(isPhaseState: _isPhaseStats),
+        if (!_isShowingTable) ChartDisplayed(isPhaseState: _isPhaseStats),
         if (_isShowingTable)
           Consumer<PhaseProvider>(
             builder: (ctx, phaseData, child) {
@@ -39,14 +39,18 @@ class _DisplayedChartState extends State<DisplayedChart> {
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: _isPhaseStats
-                        ? TeamByPhaseDataTable(phaseList: phaseData.phaseList!,)
-                        : ParticipantDataTable(phaseList: phaseData.phaseList!,),
+                        ? TeamByPhaseDataTable(
+                            phaseList: phaseData.phaseList!,
+                          )
+                        : ParticipantDataTable(
+                            phaseList: phaseData.phaseList!,
+                          ),
                   ),
                 ),
               );
             },
             child: null,
-          ), 
+          ),
         const SizedBox(height: 30),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,

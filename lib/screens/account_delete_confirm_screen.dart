@@ -7,7 +7,7 @@ import '../screens/login_screen.dart';
 
 import '../widgets/components/custom_text_form_field.dart';
 import '../widgets/components/double_button_form.dart';
-import '../widgets/custom_background_scroll.dart';
+import '../widgets/layout/custom_background_scroll.dart';
 
 import '../utils/snackbar.dart';
 

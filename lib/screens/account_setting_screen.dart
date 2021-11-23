@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../screens/account_delete_confirm_screen.dart';
 
-import '../widgets/custom_background.dart';
+import '../widgets/layout/custom_background.dart';
 import '../widgets/navigation/app_drawer.dart';
 import '../widgets/account/account_informations.dart';
 import '../widgets/account/account_password.dart';

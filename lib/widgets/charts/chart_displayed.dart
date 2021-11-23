@@ -7,16 +7,16 @@ import '../../../models/statistique.dart';
 import './horizontal_bar_label_chart.dart';
 import './outside_label_pie_chart.dart';
 
-class StatiqueDisplayed extends StatefulWidget {
+class ChartDisplayed extends StatefulWidget {
   final bool isPhaseState;
-  const StatiqueDisplayed({required this.isPhaseState, Key? key})
+  const ChartDisplayed({required this.isPhaseState, Key? key})
       : super(key: key);
 
   @override
-  _StatiqueDisplayedState createState() => _StatiqueDisplayedState();
+  _ChartDisplayedState createState() => _ChartDisplayedState();
 }
 
-class _StatiqueDisplayedState extends State<StatiqueDisplayed> {
+class _ChartDisplayedState extends State<ChartDisplayed> {
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);

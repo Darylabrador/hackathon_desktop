@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
-import '../widgets/custom_background.dart';
+import '../widgets/layout/custom_background.dart';
 import 'package:printing/printing.dart';
 
 class PDFViewerScreen extends StatefulWidget {
@@ -26,6 +26,8 @@ class _PDFViewerScreenState extends State<PDFViewerScreen> {
       ),
       body: CustomBackground(
         PdfPreview(
+          loadingWidget: const CircularProgressIndicator(),
+          maxPageWidth: 750,
           build: (format) => widget.document,
         ),
       ),

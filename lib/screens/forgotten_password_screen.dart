@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../widgets/custom_background_scroll.dart';
+import '../widgets/layout/custom_background_scroll.dart';
 import '../widgets/resetPassword/display_reset_forms.dart';
 
 class ForgottenPasswordScreen extends StatelessWidget {

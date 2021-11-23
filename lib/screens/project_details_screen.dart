@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../models/team_by_phase.dart';
 
-import '../widgets/custom_background.dart';
+import '../widgets/layout/custom_background.dart';
 import '../widgets/project_detail/project_detail_card.dart';
 
 class ProjectDetailsScreen extends StatefulWidget {
