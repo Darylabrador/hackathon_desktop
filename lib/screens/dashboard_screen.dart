@@ -30,7 +30,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
       appBar: AppBar(
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pop(context); // pop current page
+              Navigator.pushNamed(context, "/dashboard"); // push it back in
+            },
             icon: const Icon(Icons.refresh),
           ),
           const SizedBox(
