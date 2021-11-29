@@ -32,21 +32,26 @@ class _DisplayedChartState extends State<DisplayedChart> {
         if (_isShowingTable)
           Consumer<PhaseProvider>(
             builder: (ctx, phaseData, child) {
-              return SizedBox(
-                width: mediaQuery.size.width * 0.7,
-                child: Card(
-                  elevation: 5,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: _isPhaseStats
-                        ? TeamByPhaseDataTable(
-                            phaseList: phaseData.phaseList!,
-                          )
-                        : ParticipantDataTable(
-                            phaseList: phaseData.phaseList!,
-                          ),
+              if (phaseData.phaseList != null) {
+                return SizedBox(
+                  width: mediaQuery.size.width * 0.7,
+                  child: Card(
+                    elevation: 5,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: _isPhaseStats
+                          ? TeamByPhaseDataTable(
+                              phaseList: phaseData.phaseList!,
+                            )
+                          : ParticipantDataTable(
+                              phaseList: phaseData.phaseList!,
+                            ),
+                    ),
                   ),
-                ),
+                );
+              }
+              return const Center(
+                child: CircularProgressIndicator(),
               );
             },
             child: null,

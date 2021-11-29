@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import '../providers/phase_provider.dart';
 
 import '../widgets/navigation/app_drawer.dart';
-import '../widgets/layout/custom_background_scroll.dart';
+import '../layout/custom_background_scroll.dart';
 import '../widgets/displayed_chart.dart';
 
 class DashboardScreen extends StatefulWidget {

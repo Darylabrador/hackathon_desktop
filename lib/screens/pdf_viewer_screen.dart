@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
-import '../widgets/layout/custom_background.dart';
+import '../layout/custom_background.dart';
 import 'package:printing/printing.dart';
 
 class PDFViewerScreen extends StatefulWidget {
