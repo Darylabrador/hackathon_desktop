@@ -9,6 +9,7 @@ import '../../screens/account_setting_screen.dart';
 import '../../screens/login_screen.dart';
 
 import '../../utils/palette.dart';
+import '../../services/route_service.dart';
 
 class AppDrawer extends StatelessWidget {
   final BuildContext? customContext;
@@ -105,20 +106,10 @@ class AppDrawer extends StatelessWidget {
                 style: Theme.of(customContext ?? context).textTheme.headline4,
               ),
               onTap: () {
-                if (ModalRoute.of(customContext ?? context)!
-                            .settings
-                            .name
-                            .toString() ==
-                        "/" ||
-                    ModalRoute.of(customContext ?? context)!
-                            .settings
-                            .name
-                            .toString() ==
-                        DashboardScreen.routeName) {
-                  return;
-                }
-                Navigator.of(customContext ?? context)
-                    .pushReplacementNamed(DashboardScreen.routeName);
+                RouteService.welcomeRoute(
+                  DashboardScreen.routeName,
+                  customContext ?? context,
+                );
               },
             ),
             ListTile(
@@ -131,15 +122,9 @@ class AppDrawer extends StatelessWidget {
                 style: Theme.of(customContext ?? context).textTheme.headline4,
               ),
               onTap: () {
-                if (ModalRoute.of(customContext ?? context)!
-                        .settings
-                        .name
-                        .toString() ==
-                    AccountSettingScreen.routeName) {
-                  return;
-                }
-                Navigator.of(customContext ?? context).pushReplacementNamed(
+                RouteService.generalRoute(
                   AccountSettingScreen.routeName,
+                  customContext ?? context,
                 );
               },
             ),
