@@ -80,11 +80,10 @@ class AppDrawer extends StatelessWidget {
                         hoverColor: Colors.transparent,
                         color: Colors.white,
                         onPressed: () {
-                          Navigator.of(customContext ?? context).pushReplacement(
-                              MaterialPageRoute(
-                                  builder: (ctx) => const LoginScreen()));
                           Navigator.of(customContext ?? context)
-                              .pushReplacementNamed(LoginScreen.routeName);
+                              .pushReplacementNamed(
+                            LoginScreen.routeName,
+                          );
                           Provider.of<Auth>(customContext ?? context,
                                   listen: false)
                               .logout();
@@ -139,8 +138,9 @@ class AppDrawer extends StatelessWidget {
                     AccountSettingScreen.routeName) {
                   return;
                 }
-                Navigator.of(customContext ?? context)
-                    .pushReplacementNamed(AccountSettingScreen.routeName);
+                Navigator.of(customContext ?? context).pushReplacementNamed(
+                  AccountSettingScreen.routeName,
+                );
               },
             ),
           ],

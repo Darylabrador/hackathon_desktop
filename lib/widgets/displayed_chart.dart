@@ -8,6 +8,7 @@ import 'datatable/participant_data_table.dart';
 import 'datatable/team_by_phase_data_table.dart';
 
 import '../providers/phase_provider.dart';
+import '../services/error_service.dart';
 
 class DisplayedChart extends StatefulWidget {
   const DisplayedChart({Key? key}) : super(key: key);
@@ -50,6 +51,11 @@ class _DisplayedChartState extends State<DisplayedChart> {
                   ),
                 );
               }
+
+              if (phaseData.phaseList!.isEmpty) {
+                return ErrorService.showError("Statistiques indisponible");
+              }
+
               return const Center(
                 child: CircularProgressIndicator(),
               );

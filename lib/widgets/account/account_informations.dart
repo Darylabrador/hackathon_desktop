@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import './account_information_form.dart';
 import '../../models/account.dart';
 import '../../providers/account_setting.dart';
+import '../../services/error_service.dart';
 
 class AccountInformations extends StatefulWidget {
   const AccountInformations({Key? key}) : super(key: key);
@@ -21,6 +22,10 @@ class _AccountInformationsState extends State<AccountInformations> {
             .getAccountInformations(),
         builder: (ctx, AsyncSnapshot<Map<String, dynamic>> accountSnapshot) {
           if (accountSnapshot.connectionState == ConnectionState.done) {
+            if (!accountSnapshot.hasData) {
+              return ErrorService.showError("Service indisponible");
+            }
+
             Account accountData = Account(
               id: accountSnapshot.data!["id"],
               email: accountSnapshot.data!["email"],
@@ -29,7 +34,7 @@ class _AccountInformationsState extends State<AccountInformations> {
               gender: accountSnapshot.data!["gender"],
               yearOld: accountSnapshot.data!["age"],
             );
-            
+
             return SingleChildScrollView(
               child: Column(
                 children: [

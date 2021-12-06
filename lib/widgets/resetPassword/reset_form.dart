@@ -8,6 +8,7 @@ import '../../screens/login_screen.dart';
 import '../../utils/snackbar.dart';
 
 import '../components/double_button_form.dart';
+import '../../services/validator_service.dart';
 
 class ResetForm extends StatefulWidget {
   final Function handleReseting;
@@ -57,37 +58,19 @@ class _ResetFormState extends State<ResetForm> {
         child: Column(
           children: [
             TextFormField(
-              decoration:
-                  const InputDecoration(labelText: "Votre mot de passe"),
+              obscureText: true,
+              decoration: const InputDecoration(labelText: "Votre mot de passe"),
               textInputAction: TextInputAction.next,
               controller: _passwordController,
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return 'Ce champ ne peut pas être vide';
-                }
-                if (value.length < 5) {
-                  return 'Il faut 5 caractères minimum';
-                }
-                return null;
-              },
-              obscureText: true,
+              validator: (value) => ValidatorService.validatePassword(value)
             ),
             const SizedBox(height: 20),
             TextFormField(
-              decoration:
-                  const InputDecoration(labelText: "Confirmation mot de passe"),
+              obscureText: true,
+              decoration: const InputDecoration(labelText: "Confirmation mot de passe"),
               textInputAction: TextInputAction.done,
               controller: _passwordConfirmController,
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return 'Ce champ ne peut pas être vide';
-                }
-                if (value.length < 5) {
-                  return 'Il faut 5 caractères minimum';
-                }
-                return null;
-              },
-              obscureText: true,
+              validator: (value) => ValidatorService.validatePassword(value)
             ),
             const SizedBox(
               height: 20,

@@ -6,6 +6,7 @@ import '../../providers/password_reset.dart';
 import '../components/custom_text_form_field.dart';
 import '../components/double_button_form.dart';
 
+import '../../services/validator_service.dart';
 import '../../utils/snackbar.dart';
 
 class AccountPasswordForm extends StatefulWidget {
@@ -70,42 +71,21 @@ class _AccountPasswordFormState extends State<AccountPasswordForm> {
               labelText: "Ancien mot de passe",
               controller: _oldPasswordController,
               obscureText: _isHidden,
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return 'Veuillez saisir votre ancien mot de passe';
-                }
-                return null;
-              },
+              validator: (value) => ValidatorService.validateField(value)
             ),
             const SizedBox(height: 10),
             CustomTextFormField(
               labelText: "Nouveau mot de passe",
               controller: _passwordController,
               obscureText: _isHidden,
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return 'Veuillez saisir votre nouveau mot de passe';
-                }
-                if (value.length < 5) {
-                  return 'Il faut au minimum 5 caractères';
-                }
-                return null;
-              },
+              validator: (value) => ValidatorService.validatePassword(value)
             ),
             const SizedBox(height: 10),
             CustomTextFormField(
               labelText: "Confirmation mot de passe",
               controller: _confirmPasswordController,
               obscureText: _isHidden,
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return 'Veuillez confirmer votre mot de passe';
-                }
-                if (value.length < 5) {
-                  return 'Il faut au minimum 5 caractères';
-                }
-                return null;
-              },
+              validator: (value) => ValidatorService.validatePassword(value)
             ),
             const SizedBox(height: 10),
             TextButton(

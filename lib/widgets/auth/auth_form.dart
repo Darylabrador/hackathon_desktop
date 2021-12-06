@@ -5,6 +5,7 @@ import '../../screens/forgotten_password_screen.dart';
 import '../../utils/snackbar.dart';
 
 import '../../providers/auth.dart';
+import '../../services/validator_service.dart';
 
 class AuthForm extends StatefulWidget {
   const AuthForm({Key? key}) : super(key: key);
@@ -51,17 +52,11 @@ class _AuthFormState extends State<AuthForm> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 TextFormField(
-                  decoration:
-                      const InputDecoration(labelText: 'Adresse e-mail'),
+                  decoration: const InputDecoration(labelText: 'Adresse e-mail'),
                   textInputAction: TextInputAction.next,
                   keyboardType: TextInputType.emailAddress,
                   controller: _emailController,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Veuillez saisir votre adresse e-mail';
-                    }
-                    return null;
-                  },
+                  validator: (value) => ValidatorService.validateEmail(value),
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
@@ -69,12 +64,7 @@ class _AuthFormState extends State<AuthForm> {
                   textInputAction: TextInputAction.done,
                   controller: _passwordController,
                   obscureText: true,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Veuillez saisir votre mot de passe';
-                    }
-                    return null;
-                  },
+                  validator: (value) => ValidatorService.validatePassword(value),
                 ),
                 const SizedBox(height: 40),
                 SizedBox(
@@ -91,7 +81,8 @@ class _AuthFormState extends State<AuthForm> {
                 TextButton(
                   onPressed: () {
                     Navigator.of(context).pushReplacementNamed(
-                        ForgottenPasswordScreen.routeName);
+                      ForgottenPasswordScreen.routeName,
+                    );
                   },
                   child: const Text("Mot de passe oublié ?"),
                 ),

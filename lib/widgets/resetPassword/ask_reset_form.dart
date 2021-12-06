@@ -6,6 +6,8 @@ import '../../utils/snackbar.dart';
 import '../../screens/login_screen.dart';
 import '../components/double_button_form.dart';
 
+import '../../services/validator_service.dart';
+
 class AskResetForm extends StatefulWidget {
   final Function handleReseting;
   const AskResetForm({Key? key, required this.handleReseting})
@@ -46,18 +48,11 @@ class _AskResetFormState extends State<AskResetForm> {
         child: Column(
           children: [
             TextFormField(
-              decoration:
-                  const InputDecoration(labelText: "Votre adresse e-mail"),
+              decoration: const InputDecoration(labelText: "Votre adresse e-mail"),
               keyboardType: TextInputType.emailAddress,
               textInputAction: TextInputAction.done,
               controller: _emailController,
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return 'Veuillez saisir votre adresse e-mail';
-                }
-                if (!value.contains("@")) return 'Adresse e-mail invalide';
-                return null;
-              },
+              validator: (value) => ValidatorService.validateEmail(value)
             ),
             const SizedBox(
               height: 20,

@@ -11,6 +11,7 @@ import '../components/custom_text_form_field.dart';
 
 import '../components/double_button_form.dart';
 
+import '../../services/validator_service.dart';
 import '../../utils/snackbar.dart';
 
 class AccountInformationForm extends StatefulWidget {
@@ -94,9 +95,7 @@ class _AccountInformationFormState extends State<AccountInformationForm> {
   void _resetForm() {
     _formKey.currentState!.reset();
     _setDataField(savedData);
-    setState(() {
-      
-    });
+    setState(() {});
   }
 
   @override
@@ -120,51 +119,25 @@ class _AccountInformationFormState extends State<AccountInformationForm> {
             CustomTextFormField(
               labelText: "Votre nom de famille",
               controller: _surnameController,
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return 'Veuillez saisir votre nom de famille';
-                }
-                return null;
-              },
+              validator: (value) => ValidatorService.validateField(value),
             ),
             const SizedBox(height: 10),
             CustomTextFormField(
               labelText: "Votre prénom",
               controller: _firstnameController,
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return 'Veuillez saisir votre prénom';
-                }
-                return null;
-              },
+              validator: (value) => ValidatorService.validateField(value),
             ),
             const SizedBox(height: 10),
             CustomTextFormField(
               labelText: "Votre adresse e-mail",
               controller: _emailController,
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return 'Veuillez saisir votre adresse e-mail';
-                }
-                if (!value.contains("@")) {
-                  return 'Adresse e-mail invalide';
-                }
-                return null;
-              },
+              validator: (value) => ValidatorService.validateEmail(value)
             ),
             const SizedBox(height: 10),
             CustomTextFormField(
               labelText: "Votre age",
               controller: _yearOldController,
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return 'Veuillez saisir votre age';
-                }
-                if (!value.contains(RegExp(r'^[0-9]{2}'))) {
-                  return 'Il faut que des chiffres';
-                }
-                return null;
-              },
+              validator: (value) => ValidatorService.validateAge(value)
             ),
             const SizedBox(height: 10),
             GenderSelectInput(
