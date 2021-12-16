@@ -20,8 +20,12 @@ class AskResetForm extends StatefulWidget {
 class _AskResetFormState extends State<AskResetForm> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
+  var _loading = false;
 
   Future<void> _submit(BuildContext context) async {
+    setState(() {
+      _loading = true;
+    });
     try {
       if (!_formKey.currentState!.validate()) {
         return;
@@ -37,10 +41,19 @@ class _AskResetFormState extends State<AskResetForm> {
     } catch (e) {
       Snackbar.showScaffold(e.toString(), false, context);
     }
+    setState(() {
+      _loading = false;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    if (_loading) {
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
+    }
+
     return Form(
       key: _formKey,
       child: Padding(
@@ -48,12 +61,12 @@ class _AskResetFormState extends State<AskResetForm> {
         child: Column(
           children: [
             TextFormField(
-              decoration: const InputDecoration(labelText: "Votre adresse e-mail"),
-              keyboardType: TextInputType.emailAddress,
-              textInputAction: TextInputAction.done,
-              controller: _emailController,
-              validator: (value) => ValidatorService.validateEmail(value)
-            ),
+                decoration:
+                    const InputDecoration(labelText: "Votre adresse e-mail"),
+                keyboardType: TextInputType.emailAddress,
+                textInputAction: TextInputAction.done,
+                controller: _emailController,
+                validator: (value) => ValidatorService.validateEmail(value)),
             const SizedBox(
               height: 20,
             ),

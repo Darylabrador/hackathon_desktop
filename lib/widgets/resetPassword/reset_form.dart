@@ -26,8 +26,12 @@ class _ResetFormState extends State<ResetForm> {
   final _codeController = TextEditingController();
   final _passwordController = TextEditingController();
   final _passwordConfirmController = TextEditingController();
+  var _loading = false;
 
   Future<void> _submit(BuildContext context) async {
+    setState(() {
+      _loading = true;
+    });
     try {
       if (!_formKey.currentState!.validate()) {
         return;
@@ -46,10 +50,19 @@ class _ResetFormState extends State<ResetForm> {
     } catch (e) {
       Snackbar.showScaffold(e.toString(), false, context);
     }
+    setState(() {
+      _loading = false;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    if (_loading) {
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
+    }
+
     return Form(
       key: _formKey,
       child: Padding(
