@@ -12,10 +12,8 @@ import '../../services/validator_service.dart';
 
 class ResetForm extends StatefulWidget {
   final Function handleReseting;
-  final String? resetToken;
   const ResetForm({
     Key? key,
-    this.resetToken,
     required this.handleReseting,
   }) : super(key: key);
 
@@ -25,6 +23,7 @@ class ResetForm extends StatefulWidget {
 
 class _ResetFormState extends State<ResetForm> {
   final _formKey = GlobalKey<FormState>();
+  final _codeController = TextEditingController();
   final _passwordController = TextEditingController();
   final _passwordConfirmController = TextEditingController();
 
@@ -36,9 +35,9 @@ class _ResetFormState extends State<ResetForm> {
       _formKey.currentState!.save();
       final data = await Provider.of<PasswordReset>(context, listen: false)
           .loggedOutResetingPassword(
-        _passwordController.text,
-        _passwordConfirmController.text,
-        widget.resetToken,
+        _codeController.text.trim(),
+        _passwordController.text.trim(),
+        _passwordConfirmController.text.trim(),
       );
       Snackbar.showScaffold(data["message"], data["success"], context);
       if (data["success"]) {
@@ -58,19 +57,32 @@ class _ResetFormState extends State<ResetForm> {
         child: Column(
           children: [
             TextFormField(
-              obscureText: true,
-              decoration: const InputDecoration(labelText: "Votre mot de passe"),
+              decoration: const InputDecoration(
+                labelText: "Code de validation",
+              ),
               textInputAction: TextInputAction.next,
-              controller: _passwordController,
-              validator: (value) => ValidatorService.validatePassword(value)
+              controller: _codeController,
+              validator: (value) => ValidatorService.validatePassword(value),
             ),
             const SizedBox(height: 20),
             TextFormField(
               obscureText: true,
-              decoration: const InputDecoration(labelText: "Confirmation mot de passe"),
+              decoration: const InputDecoration(
+                labelText: "Votre mot de passe",
+              ),
+              textInputAction: TextInputAction.next,
+              controller: _passwordController,
+              validator: (value) => ValidatorService.validatePassword(value),
+            ),
+            const SizedBox(height: 20),
+            TextFormField(
+              obscureText: true,
+              decoration: const InputDecoration(
+                labelText: "Confirmation mot de passe",
+              ),
               textInputAction: TextInputAction.done,
               controller: _passwordConfirmController,
-              validator: (value) => ValidatorService.validatePassword(value)
+              validator: (value) => ValidatorService.validatePassword(value),
             ),
             const SizedBox(
               height: 20,

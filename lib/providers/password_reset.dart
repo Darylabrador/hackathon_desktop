@@ -30,9 +30,9 @@ class PasswordReset with ChangeNotifier {
   }
 
   Future<Map<String, dynamic>> loggedOutResetingPassword(
+    String resetToken,
     String newPassword,
     String newPasswordConfirm,
-    String? resetToken,
   ) async {
     final url = Uri.parse(
       "${ConstantVariables.startingURL}/reset/password",
