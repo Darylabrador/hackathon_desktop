@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:flutter/cupertino.dart';
+import 'package:collection/collection.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/foundation.dart';
 
@@ -93,7 +94,8 @@ class Stats with ChangeNotifier {
           firstname: element["firstname"],
           gender: element["gender"],
           role: element["role"],
-          teamName: element["team"].toString().isEmpty ? "" : element["team"]["name"],
+          teamName:
+              element["team"].toString().isEmpty ? "" : element["team"]["name"],
           createdAt: element["created"],
         ));
       }
@@ -117,15 +119,17 @@ class Stats with ChangeNotifier {
       );
       final responseData = jsonDecode(response.body)["data"] as List<dynamic>;
 
-      if(responseData.isEmpty) return teamPhaseList;
+      if (responseData.isEmpty) return teamPhaseList;
 
+      print(responseData);
       for (var element in responseData) {
         final team = element["team"];
         final teamName = team["name"];
         final teamMembers = team["members"] as List<dynamic>;
         final teamActualPhase = team["phase_actuel"];
-        final leaderInfo = teamMembers.firstWhere((data) => data['leader'] == 1)["user"];
-        final projectData = element["project"]["project_data"] as List<dynamic>;
+        final leaderInfo =
+            teamMembers.firstWhere((data) => data['leader'] == 1)["user"];
+        final projectData = element["project"] != null ? element["project"]["project_data"] as List<dynamic> : [];
         final projectId = element["id"];
 
         teamPhaseList.add(TeamByPhase(
@@ -138,6 +142,7 @@ class Stats with ChangeNotifier {
       }
       return teamPhaseList;
     } catch (e) {
+      print(e.toString());
       throw HttpException("Veuillez réessayer ultérieurement");
     }
   }

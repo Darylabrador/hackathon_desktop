@@ -31,24 +31,33 @@ class _TeamByPhaseDataTableState extends State<TeamByPhaseDataTable> {
   @override
   void didChangeDependencies() async {
     if (_isInit) {
-      final structuredData = <TeamByPhase>[];
-      final initialData = await Provider.of<Stats>(context, listen: false).getTeamByPhaseDataTableInfo();
+      try {
+        final structuredData = <TeamByPhase>[];
+        final initialData = await Provider.of<Stats>(
+          context,
+          listen: false,
+        ).getTeamByPhaseDataTableInfo();
+        for (var element in initialData) {
+          var phaseName = widget.phaseList.firstWhere(
+            (phase) => phase.id.toString() == element.phaseActual.toString(),
+          );
+          structuredData.add(
+            TeamByPhase(
+              projectId: element.projectId,
+              teamName: element.teamName,
+              leader: element.leader,
+              phaseActual: element.phaseActual,
+              projectData: element.projectData,
+              phaseName: phaseName.name,
+            ),
+          );
+        }
 
-      for (var element in initialData) {
-        var phaseName = widget.phaseList.firstWhere(
-          (phase) => phase.id.toString() == element.phaseActual.toString(),
-        );
-        structuredData.add(TeamByPhase(
-            projectId: element.projectId,
-            teamName: element.teamName,
-            leader: element.leader,
-            phaseActual: element.phaseActual,
-            projectData: element.projectData,
-            phaseName: phaseName.name));
+        iterableRows = structuredData;
+        rowsDataTeamByPhase = structuredData;
+      } catch (e) {
+        // print(e.toString());
       }
-
-      iterableRows = structuredData;
-      rowsDataTeamByPhase = structuredData;
     }
     setState(() {
       _isInit = false;
@@ -69,7 +78,7 @@ class _TeamByPhaseDataTableState extends State<TeamByPhaseDataTable> {
             DataCell(
               Row(
                 children: [
-                  IconButton(
+                  if(element.phaseActual != 1) IconButton(
                     padding: EdgeInsets.zero,
                     hoverColor: Colors.transparent,
                     color: Colors.blueGrey,
@@ -84,7 +93,7 @@ class _TeamByPhaseDataTableState extends State<TeamByPhaseDataTable> {
                       );
                     },
                   ),
-                  IconButton(
+                  if(element.phaseActual != 1) IconButton(
                     padding: EdgeInsets.zero,
                     hoverColor: Colors.transparent,
                     color: Colors.red,
