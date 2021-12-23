@@ -17,6 +17,22 @@ class ChartDisplayed extends StatefulWidget {
 }
 
 class _ChartDisplayedState extends State<ChartDisplayed> {
+  late final Future<List<Statistique>?> _getStatsParticipants;
+  late final Future<List<Statistique>?> _getStatsTeamByPhase;
+
+  @override
+  void initState() {
+    super.initState();
+    _getStatsParticipants = Provider.of<Stats>(
+      context,
+      listen: false,
+    ).getStatsParticipants();
+    _getStatsTeamByPhase = Provider.of<Stats>(
+      context,
+      listen: false,
+    ).getStatsTeamByPhase();
+  }
+
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
@@ -41,10 +57,7 @@ class _ChartDisplayedState extends State<ChartDisplayed> {
         ),
         if (!widget.isPhaseState)
           FutureBuilder(
-            future: Provider.of<Stats>(
-              context,
-              listen: false,
-            ).getStatsParticipants(),
+            future: _getStatsParticipants,
             builder: (ctx, AsyncSnapshot<List<Statistique>?> graphSnapshot) {
               if (graphSnapshot.connectionState == ConnectionState.waiting) {
                 return const Center(
@@ -61,7 +74,8 @@ class _ChartDisplayedState extends State<ChartDisplayed> {
                     child: Row(
                       children: [
                         Expanded(
-                          child: PieOutsideLabelChart.display(graphSnapshot.data!),
+                          child:
+                              PieOutsideLabelChart.display(graphSnapshot.data!),
                         ),
                       ],
                     ),
@@ -72,10 +86,7 @@ class _ChartDisplayedState extends State<ChartDisplayed> {
           ),
         if (widget.isPhaseState)
           FutureBuilder(
-            future: Provider.of<Stats>(
-              context,
-              listen: false,
-            ).getStatsTeamByPhase(),
+            future: _getStatsTeamByPhase,
             builder: (ctx, AsyncSnapshot<List<Statistique>?> graphSnapshot) {
               if (graphSnapshot.connectionState == ConnectionState.waiting) {
                 return const Center(
@@ -92,7 +103,8 @@ class _ChartDisplayedState extends State<ChartDisplayed> {
                     child: Row(
                       children: [
                         Expanded(
-                          child: HorizontalBarLabelChart.display(graphSnapshot.data!),
+                          child: HorizontalBarLabelChart.display(
+                              graphSnapshot.data!),
                         ),
                       ],
                     ),
