@@ -121,7 +121,6 @@ class Stats with ChangeNotifier {
 
       if (responseData.isEmpty) return teamPhaseList;
 
-      print(responseData);
       for (var element in responseData) {
         final team = element["team"];
         final teamName = team["name"];
@@ -142,7 +141,6 @@ class Stats with ChangeNotifier {
       }
       return teamPhaseList;
     } catch (e) {
-      print(e.toString());
       throw HttpException("Veuillez réessayer ultérieurement");
     }
   }

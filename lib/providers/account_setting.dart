@@ -76,6 +76,7 @@ class AccountSetting with ChangeNotifier {
         },
       );
       final responseData = jsonDecode(response.body);
+      print(responseData);
       return responseData;
     } catch (e) {
       throw HttpException("Veuillez réessayer ultérieurement");
