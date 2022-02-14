@@ -24,7 +24,7 @@ class PDFProvider with ChangeNotifier {
       );
       return response;
     } catch (e) {
-      throw HttpException("Veuillez réessayer ultérieurement");
+      throw HttpException(e.toString());
     }
   }
 }

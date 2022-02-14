@@ -18,7 +18,6 @@ class Auth with ChangeNotifier {
   String? get identity {
     if (_identity != null) return _identity;
     return "";
-    
   }
 
   bool get isAuth {
@@ -57,6 +56,11 @@ class Auth with ChangeNotifier {
         headers: {"Content-Type": "application/json"},
       );
       final responseData = json.decode(response.body);
+
+      if (response.statusCode != 200) {
+        throw HttpException(jsonDecode(response.body)['message']);
+      }
+
       if (responseData["role"] == "laposte" ||
           responseData["role"] == "admin") {
         if (responseData["success"]) {
@@ -75,7 +79,7 @@ class Auth with ChangeNotifier {
         return {'success': false, 'message': message};
       }
     } catch (e) {
-      throw HttpException("Veuillez réessayer ultérieurement");
+      throw HttpException(e.toString());
     }
   }
 
@@ -108,7 +112,7 @@ class Auth with ChangeNotifier {
 
     // final url = Uri.parse("${ConstantVariables.startingURL}/logout");
     // await http.get(url, headers: {'Authorization': "Bearer $_token"});
-    
+
     _token = null;
     _expiryDate = null;
     notifyListeners();

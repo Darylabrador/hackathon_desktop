@@ -18,9 +18,14 @@ class AccountSetting with ChangeNotifier {
         "Content-Type": "application/json"
       });
       final responseData = json.decode(response.body);
+
+      if (response.statusCode != 200) {
+        throw HttpException(jsonDecode(response.body)['message']);
+      }
+
       return responseData["data"];
     } catch (e) {
-      throw HttpException("Veuillez réessayer ultérieurement");
+      throw HttpException(e.toString());
     }
   }
 
@@ -50,9 +55,14 @@ class AccountSetting with ChangeNotifier {
         },
       );
       final responseData = jsonDecode(response.body);
+
+      if (response.statusCode != 200) {
+        throw HttpException(jsonDecode(response.body)['message']);
+      }
+
       return responseData;
     } catch (e) {
-      throw HttpException("Veuillez réessayer ultérieurement");
+      throw HttpException(e.toString());
     }
   }
 
@@ -76,10 +86,14 @@ class AccountSetting with ChangeNotifier {
         },
       );
       final responseData = jsonDecode(response.body);
-      print(responseData);
+
+      if (response.statusCode != 200) {
+        throw HttpException(jsonDecode(response.body)['message']);
+      }
+      
       return responseData;
     } catch (e) {
-      throw HttpException("Veuillez réessayer ultérieurement");
+      throw HttpException(e.toString());
     }
   }
 }

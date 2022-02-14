@@ -41,13 +41,18 @@ class Stats with ChangeNotifier {
         headers: {"Authorization": "Bearer $authToken"},
       );
       final responseData = jsonDecode(response.body);
+
+      if (response.statusCode != 200) {
+        throw HttpException(jsonDecode(response.body)['message']);
+      }
+
       return _setDataGraph(
         responseData["labels"] as List<dynamic>,
         responseData["data"] as List<dynamic>,
         responseData["total"] as int,
       );
     } catch (e) {
-      throw HttpException("Veuillez réssayer ultérieurement");
+      throw HttpException(e.toString());
     }
   }
 
@@ -61,13 +66,18 @@ class Stats with ChangeNotifier {
         headers: {"Authorization": "Bearer $authToken"},
       );
       final responseData = jsonDecode(response.body);
+
+      if (response.statusCode != 200) {
+        throw HttpException(jsonDecode(response.body)['message']);
+      }
+
       return _setDataGraph(
         responseData["labels"] as List<dynamic>,
         responseData["data"] as List<dynamic>,
         responseData["total"] as int,
       );
     } catch (e) {
-      throw HttpException("Veuillez réssayer ultérieurement");
+      throw HttpException(e.toString());
     }
   }
 
@@ -86,6 +96,10 @@ class Stats with ChangeNotifier {
 
       final responseData = jsonDecode(response.body)["data"] as List<dynamic>;
 
+      if (response.statusCode != 200) {
+        throw HttpException(jsonDecode(response.body)['message']);
+      }
+
       for (var element in responseData) {
         participantList.add(Participants(
           id: element["id"],
@@ -102,7 +116,7 @@ class Stats with ChangeNotifier {
 
       return participantList;
     } catch (e) {
-      throw HttpException("Veuillez réessayer ultérieurement");
+      throw HttpException(e.toString());
     }
   }
 
@@ -119,6 +133,10 @@ class Stats with ChangeNotifier {
       );
       final responseData = jsonDecode(response.body)["data"] as List<dynamic>;
 
+      if (response.statusCode != 200) {
+        throw HttpException(jsonDecode(response.body)['message']);
+      }
+
       if (responseData.isEmpty) return teamPhaseList;
 
       for (var element in responseData) {
@@ -128,7 +146,9 @@ class Stats with ChangeNotifier {
         final teamActualPhase = team["phase_actuel"];
         final leaderInfo =
             teamMembers.firstWhere((data) => data['leader'] == 1)["user"];
-        final projectData = element["project"] != null ? element["project"]["project_data"] as List<dynamic> : [];
+        final projectData = element["project"] != null
+            ? element["project"]["project_data"] as List<dynamic>
+            : [];
         final projectId = element["id"];
 
         teamPhaseList.add(TeamByPhase(
@@ -141,7 +161,7 @@ class Stats with ChangeNotifier {
       }
       return teamPhaseList;
     } catch (e) {
-      throw HttpException("Veuillez réessayer ultérieurement");
+      throw HttpException(e.toString());
     }
   }
 }

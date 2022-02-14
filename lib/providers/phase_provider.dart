@@ -32,6 +32,11 @@ class PhaseProvider with ChangeNotifier {
         },
       );
       final responseData = jsonDecode(response.body);
+
+      if (response.statusCode != 200) {
+        throw HttpException(jsonDecode(response.body)['message']);
+      }
+
       final dataArray = responseData["data"] as List<dynamic>;
 
       for (var element in dataArray) {
@@ -46,7 +51,7 @@ class PhaseProvider with ChangeNotifier {
       _phases = phasesList;
       notifyListeners();
     } catch (e) {
-      throw HttpException("Veuillez réessayer ultérieurement");
+      throw HttpException(e.toString());
     }
   }
 }
