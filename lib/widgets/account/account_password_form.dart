@@ -21,6 +21,8 @@ class _AccountPasswordFormState extends State<AccountPasswordForm> {
   final _oldPasswordController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
+  ValidatorService validator = ValidatorService.getInstance();
+
   var _isHidden = true;
 
   Future<void> _submit(BuildContext context) async {
@@ -71,21 +73,21 @@ class _AccountPasswordFormState extends State<AccountPasswordForm> {
               labelText: "Ancien mot de passe",
               controller: _oldPasswordController,
               obscureText: _isHidden,
-              validator: (value) => ValidatorService.validateField(value)
+              validator: (value) => validator.validateField(value)
             ),
             const SizedBox(height: 10),
             CustomTextFormField(
               labelText: "Nouveau mot de passe",
               controller: _passwordController,
               obscureText: _isHidden,
-              validator: (value) => ValidatorService.validatePassword(value)
+              validator: (value) => validator.validatePassword(value)
             ),
             const SizedBox(height: 10),
             CustomTextFormField(
               labelText: "Confirmation mot de passe",
               controller: _confirmPasswordController,
               obscureText: _isHidden,
-              validator: (value) => ValidatorService.validatePassword(value)
+              validator: (value) => validator.validatePassword(value)
             ),
             const SizedBox(height: 10),
             TextButton(

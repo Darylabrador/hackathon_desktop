@@ -26,6 +26,8 @@ class _ResetFormState extends State<ResetForm> {
   final _codeController = TextEditingController();
   final _passwordController = TextEditingController();
   final _passwordConfirmController = TextEditingController();
+  ValidatorService validator = ValidatorService.getInstance();
+
   var _loading = false;
 
   Future<void> _submit(BuildContext context) async {
@@ -34,6 +36,9 @@ class _ResetFormState extends State<ResetForm> {
     });
     try {
       if (!_formKey.currentState!.validate()) {
+        setState(() {
+          _loading = false;
+        });
         return;
       }
       _formKey.currentState!.save();
@@ -75,7 +80,7 @@ class _ResetFormState extends State<ResetForm> {
               ),
               textInputAction: TextInputAction.next,
               controller: _codeController,
-              validator: (value) => ValidatorService.validatePassword(value),
+              validator: (value) => validator.validatePassword(value),
             ),
             const SizedBox(height: 20),
             TextFormField(
@@ -85,7 +90,7 @@ class _ResetFormState extends State<ResetForm> {
               ),
               textInputAction: TextInputAction.next,
               controller: _passwordController,
-              validator: (value) => ValidatorService.validatePassword(value),
+              validator: (value) => validator.validatePassword(value),
             ),
             const SizedBox(height: 20),
             TextFormField(
@@ -95,7 +100,7 @@ class _ResetFormState extends State<ResetForm> {
               ),
               textInputAction: TextInputAction.done,
               controller: _passwordConfirmController,
-              validator: (value) => ValidatorService.validatePassword(value),
+              validator: (value) => validator.validatePassword(value),
             ),
             const SizedBox(
               height: 20,

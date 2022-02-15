@@ -20,6 +20,8 @@ class AskResetForm extends StatefulWidget {
 class _AskResetFormState extends State<AskResetForm> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
+  ValidatorService validator = ValidatorService.getInstance();
+
   var _loading = false;
 
   Future<void> _submit(BuildContext context) async {
@@ -28,6 +30,9 @@ class _AskResetFormState extends State<AskResetForm> {
     });
     try {
       if (!_formKey.currentState!.validate()) {
+        setState(() {
+          _loading = false;
+        });
         return;
       }
       _formKey.currentState!.save();
@@ -66,7 +71,7 @@ class _AskResetFormState extends State<AskResetForm> {
                 keyboardType: TextInputType.emailAddress,
                 textInputAction: TextInputAction.done,
                 controller: _emailController,
-                validator: (value) => ValidatorService.validateEmail(value)),
+                validator: (value) => validator.validateEmail(value)),
             const SizedBox(
               height: 20,
             ),
